@@ -48,6 +48,15 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameClasses</Filter>
     </ClCompile>
+    <ClCompile Include="MovableObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="MortalObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -75,6 +84,15 @@
       <Filter>GameClasses</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MortalObject.h">
       <Filter>GameClasses</Filter>
     </ClInclude>
   </ItemGroup>

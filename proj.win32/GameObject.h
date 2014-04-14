@@ -4,11 +4,6 @@
 #include <list>
 #include <algorithm>
 
-#define STATIC_UT -1
-#define DEFAULT_UT 0
-#define HEAVY_UT 1
-#define LIGHT_UT 2
-
 using namespace std;
 using namespace cocos2d;
 class Effect;
@@ -43,69 +38,3 @@ private:
 	static bool effectPrioritySort(Effect*,Effect*);
 };
 
-class MovableObject : public GameObject {
-public:
-	CCPoint speed;
-	double palstance;//角速度
-	
-	static MovableObject* create();
-	static MovableObject* create(const char* image);
-
-	void setTrueRotation(float nRotation);
-	float getTrueRotation();//角度
-
-	void setLocalSpeed(CCPoint& newSpeed);
-	void addLocalSpeed(CCPoint& addSpeed);
-	void setLocalSpeedX(double newSpeedX);
-	void setLocalSpeedY(double newSpeedY);
-	double getLocalSpeedX();
-	double getLocalSpeedY();
-
-	
-	virtual void AI();
-
-	~MovableObject();
-protected:
-	virtual int onDestroy();
-
-	MovableObject();
-private:
-	float rotation;
-};
-
-class SelfObject: public MovableObject{
-public:
-	static SelfObject* create();
-	static SelfObject* create(const char* image);
-};
-
-class MortalObject :public MovableObject{
-public:
-	long long max_health;
-	long long health;
-	int unit_type;//生命类实例的种类。牵涉到具体游戏内容，影响AI()执行方式
-	int level;//等级。用于决定生命上限，以及速度上限(未实现)
-
-	static MortalObject* create();
-	static MortalObject* create(const char* image);
-	static MortalObject* create(const char* image, int level);
-	static MortalObject* create(const char* image, int level, int unit_type);
-
-	virtual void AI();
-
-	bool check();
-
-	virtual int onHurt();//由e_health::execute()调用，播放动画。
-
-	int isDestroyed;
-
-	void cbDestroy();
-
-	~MortalObject();
-protected:
-
-	virtual int onDestroy();//由AI调用，负责播放动画，并将自己释放
-
-	MortalObject();
-
-};
