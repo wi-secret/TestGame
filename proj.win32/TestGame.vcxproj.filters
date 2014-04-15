@@ -57,6 +57,9 @@
     <ClCompile Include="MortalObject.cpp">
       <Filter>GameClasses</Filter>
     </ClCompile>
+    <ClCompile Include="e_speedup.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
