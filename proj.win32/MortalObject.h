@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "MovableObject.h"
 
 #define STATIC_UT -1
 #define DEFAULT_UT 0
