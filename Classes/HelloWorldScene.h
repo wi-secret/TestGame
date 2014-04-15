@@ -40,6 +40,7 @@ private:
 	static void bgGoDown(void*,void*);
 
 	void regGameObject(GameObject* pObject);
+	void unregGameObject(GameObject* pObject);
 	virtual void update(float dt);
 };
 
