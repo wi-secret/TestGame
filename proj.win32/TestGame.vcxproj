@@ -137,6 +137,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\tinyxml\tinyxml.cpp" />
     <ClCompile Include="..\tinyxml\tinyxmlerror.cpp" />
     <ClCompile Include="..\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="BasicObject.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="e_sethealth.cpp" />
     <ClCompile Include="e_speedlimit.cpp" />
@@ -154,6 +155,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\tinyxml\tinystr.h" />
     <ClInclude Include="..\tinyxml\tinyxml.h" />
+    <ClInclude Include="BasicObject.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="e_sethealth.h" />
     <ClInclude Include="e_speedlimit.h" />

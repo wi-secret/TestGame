@@ -66,6 +66,9 @@
     <ClCompile Include="e_sethealth.cpp">
       <Filter>GameClasses</Filter>
     </ClCompile>
+    <ClCompile Include="BasicObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -111,6 +114,9 @@
       <Filter>GameClasses</Filter>
     </ClInclude>
     <ClInclude Include="e_speedlimit.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObject.h">
       <Filter>GameClasses</Filter>
     </ClInclude>
   </ItemGroup>

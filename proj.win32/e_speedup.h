@@ -8,6 +8,7 @@
 #define E_SPDUP_DIRECT_RIGHT 2
 #define E_SPDUP_DIRECT_DOWN 3
 
+class Effect;
 
 class e_speedup : public Effect {
 public:

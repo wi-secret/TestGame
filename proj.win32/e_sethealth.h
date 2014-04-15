@@ -2,6 +2,7 @@
 #include "Effect.h"
 #include "MortalObject.h"
 
+class Effect;
 
 class e_sethealth :public Effect{
 public:

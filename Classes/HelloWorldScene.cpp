@@ -81,7 +81,7 @@ bool HelloWorld::init()
 	s_background->addChild(selfUnit);
 	regGameObject(selfUnit);
 
-	enemy = MortalObject::create("enemy.png", 20, HEAVY_UT);
+	enemy = BasicObject::create("enemy.png", 20, HEAVY_UT);
 	enemy->setPosition(ccp(20, 30));
 	enemy->addEffect(new e_sethealth(0, -5));
 	regGameObject(enemy);

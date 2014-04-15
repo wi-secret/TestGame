@@ -2,7 +2,7 @@
 #include "Effect.h"
 #include "MovableObject.h"
 
-
+class Effect;
 
 class e_speedlimit :public Effect {
 public:
