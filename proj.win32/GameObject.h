@@ -1,11 +1,11 @@
 #pragma once
 #include "cocos2d.h"
 #include "Effect.h"
+//#include "e_sethealth.h"
+//#include "e_speedlimit.h"
+//#include "e_speedup.h"
 #include <list>
 #include <algorithm>
-#include "MortalObject.h"
-#include "MovableObject.h"
-#include "SelfObject.h"
 
 
 using namespace std;

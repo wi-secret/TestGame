@@ -3,6 +3,13 @@
 
 #include "cocos2d.h"
 #include "proj.win32\GameObject.h"
+#include "proj.win32\MortalObject.h"
+#include "proj.win32\MovableObject.h"
+#include "proj.win32\SelfObject.h"
+#include "proj.win32\Effect.h"
+#include "proj.win32\e_speedlimit.h"
+#include "proj.win32\e_sethealth.h"
+#include "proj.win32\e_speedup.h"
 #include "proj.win32\MyKeyboardControl.h"
 #include "proj.win32\GameController.h"
 #include <list>
@@ -27,7 +34,7 @@ private:
 
 	SelfObject* selfUnit;
 	MortalObject* enemy;
-	cocos2d::CCSprite *s_background;
+	cocos2d::CCSprite* s_background;
 
 	std::list<GameObject*> GameObjects;
 

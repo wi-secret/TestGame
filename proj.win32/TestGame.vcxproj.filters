@@ -60,6 +60,12 @@
     <ClCompile Include="e_speedup.cpp">
       <Filter>GameClasses</Filter>
     </ClCompile>
+    <ClCompile Include="e_speedlimit.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="e_sethealth.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -96,6 +102,15 @@
       <Filter>GameClasses</Filter>
     </ClInclude>
     <ClInclude Include="MortalObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedup.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_sethealth.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedlimit.h">
       <Filter>GameClasses</Filter>
     </ClInclude>
   </ItemGroup>
