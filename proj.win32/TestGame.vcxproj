@@ -145,6 +145,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="MyKeyboardControl.cpp" />
     <ClCompile Include="SelfObject.cpp" />
+    <ClCompile Include="e_speedup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
