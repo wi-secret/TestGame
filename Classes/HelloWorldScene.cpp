@@ -92,6 +92,10 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::unregGameObject(GameObject* pObject) {
+	GameObjects.remove(pObject);
+}
+
 void HelloWorld::update(float dt) {
 	for(list<GameObject*>::iterator i=GameObjects.begin();i!=GameObjects.end();i++) {
 		(*i)->AI();

@@ -46,8 +46,11 @@ private:
 	static void bgGoRight(void*,void*);
 	static void bgGoDown(void*,void*);
 
-	void regGameObject(GameObject* pObject);
 	virtual void update(float dt);
+
+public:
+	void regGameObject(GameObject* pObject);
+	void unregGameObject(GameObject* pObject);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

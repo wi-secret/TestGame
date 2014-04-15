@@ -1,12 +1,8 @@
 #pragma once
 #include "cocos2d.h"
 #include "Effect.h"
-//#include "e_sethealth.h"
-//#include "e_speedlimit.h"
-//#include "e_speedup.h"
 #include <list>
 #include <algorithm>
-
 
 using namespace std;
 using namespace cocos2d;
