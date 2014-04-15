@@ -1,5 +1,5 @@
 #include "Effect.h"
-
+#include "GameObject.h"
 
 Effect::Effect(int _priority)
 {

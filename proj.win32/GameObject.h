@@ -3,6 +3,10 @@
 #include "Effect.h"
 #include <list>
 #include <algorithm>
+#include "MortalObject.h"
+#include "MovableObject.h"
+#include "SelfObject.h"
+
 
 using namespace std;
 using namespace cocos2d;
