@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define DEFAULT_SHT 0
-
+#define WHOLE_SHIELD -1
 class ShieldedObject : public GameObject
 {
 
@@ -14,7 +14,7 @@ public:
 	double ShieldEfficiency;
 	int ShieldRegenration;
 
-	static std::map<int, cocos2d::CCAnimation> *shieldAnimations;
+	static std::map<int, cocos2d::CCAnimation *>* shieldAnimations;
 
 	int playShieldAnimation(int angle, int damage);
 
@@ -26,15 +26,15 @@ public:
 
 	int SetShield();
 	int GetShield();
+
+	static std::map<int, cocos2d::CCAnimation *>* getShieldAnimations();
+
 	~ShieldedObject();
+
 protected:
 
 	ShieldedObject();
-
-private:
-
-	static std::map<int, cocos2d::CCAnimation>* getShieldAnimations();
+	
 	
 };
-
-std::map<int, cocos2d::CCAnimation> *ShieldedObject::shieldAnimations;
+std::map<int, cocos2d::CCAnimation *>* ShieldedObject::shieldAnimations;

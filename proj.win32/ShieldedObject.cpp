@@ -10,8 +10,37 @@ ShieldedObject::ShieldedObject()
 	ShieldRegenration = 0;
 }
 
-std::map<int, cocos2d::CCAnimation>* ShieldedObject::getShieldAnimations()
+int ShieldedObject::playShieldAnimation(int angle, int damage)
 {
+	CCAnimate* animate;
+	map<int,cocos2d::CCAnimation*>::iterator it = getShieldAnimations()->find(angle);
+
+	if (it == getShieldAnimations()->end()) 
+	{
+		return 0;
+	}
+	else 
+	{
+		animate = CCAnimate::create(it->second);
+	}
+	runAction(animate);
+	return 1;
+}
+
+std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
+{
+	if (shieldAnimations == NULL)
+	{
+		for (int i = 0; i < 360; i++)
+		{
+			cocos2d::CCAnimation *animation;
+			animation = CCAnimation::create();
+			(*shieldAnimations)[i] = animation;
+		}
+		cocos2d::CCAnimation* animation;
+		animation = CCAnimation::create();
+		(*shieldAnimations)[WHOLE_SHIELD] = animation;
+	}
 	return shieldAnimations;
 }
 
