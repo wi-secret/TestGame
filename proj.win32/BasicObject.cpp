@@ -8,12 +8,13 @@ BasicObject* BasicObject::create(const char* image, int level)
 	{
 		pObject->autorelease();
 		pObject->level = level;
-		pObject->health = pObject->max_health = level * 15;
+		pObject->SetHealth(pObject->max_health = level * 15);
 		return pObject;
 	}
 	CC_SAFE_DELETE(pObject);
 	return NULL;
 }
+
 BasicObject* BasicObject::create(const char* image, int level, int unit_type)
 {
 	BasicObject *pObject = new BasicObject();
@@ -25,13 +26,13 @@ BasicObject* BasicObject::create(const char* image, int level, int unit_type)
 		switch (unit_type)
 		{
 		case HEAVY_UT:
-			pObject->health = pObject->max_health = level * 25;
+			pObject->SetHealth(pObject->max_health = level * 25);
 			break;
 		case LIGHT_UT:
-			pObject->health = pObject->max_health = level * 10;
+			pObject->SetHealth(pObject->max_health = level * 10);
 			break;
 		default:
-			pObject->health = pObject->max_health = level * 15;
+			pObject->SetHealth(pObject->max_health = level * 15);
 			break;
 		}
 		return pObject;
@@ -65,7 +66,7 @@ int BasicObject::onDestroy()
 
 void BasicObject::AI()
 {
-	speed.x = 0.1;
-	speed.y = 0.13;
+	//speed.x = 0.1;
+	//speed.y = 0.13;
 	MortalObject::AI();
 }
