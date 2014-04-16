@@ -9,12 +9,12 @@ ShieldedObject::ShieldedObject()
 	ShieldEfficiency = 1;
 	ShieldRegenration = 0;
 }
-/*
+
 std::map<int, cocos2d::CCAnimation>* ShieldedObject::getShieldAnimations()
 {
 	return shieldAnimations;
 }
-*/
+
 int ShieldedObject::SetMaxShield()
 {
 	return MaxShield;

@@ -14,7 +14,7 @@ public:
 	double ShieldEfficiency;
 	int ShieldRegenration;
 
-	//static std::map<int, cocos2d::CCAnimation> *shieldAnimations;
+	static std::map<int, cocos2d::CCAnimation> *shieldAnimations;
 
 	int playShieldAnimation(int angle, int damage);
 
@@ -33,6 +33,8 @@ protected:
 
 private:
 
-	//static std::map<int, cocos2d::CCAnimation>* getShieldAnimations();
+	static std::map<int, cocos2d::CCAnimation>* getShieldAnimations();
 	
 };
+
+std::map<int, cocos2d::CCAnimation> *ShieldedObject::shieldAnimations;
