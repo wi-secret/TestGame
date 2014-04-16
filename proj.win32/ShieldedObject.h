@@ -3,6 +3,7 @@
 
 #define DEFAULT_SHT 0
 #define WHOLE_SHIELD -1
+
 class ShieldedObject : public GameObject
 {
 
@@ -13,6 +14,8 @@ public:
 	int ShieldType;
 	double ShieldEfficiency;
 	int ShieldRegenration;
+
+	static ShieldedObject* create();
 
 	static std::map<int, cocos2d::CCAnimation *>* shieldAnimations;
 
@@ -29,12 +32,14 @@ public:
 
 	static std::map<int, cocos2d::CCAnimation *>* getShieldAnimations();
 
+	virtual void AI();
+
 	~ShieldedObject();
 
 protected:
 
 	ShieldedObject();
 	
-	
+	virtual int onDestroy();//由AI调用，将自己释放
 };
-std::map<int, cocos2d::CCAnimation *>* ShieldedObject::shieldAnimations;
+

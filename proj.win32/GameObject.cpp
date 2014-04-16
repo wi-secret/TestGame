@@ -6,7 +6,6 @@ GameObject::GameObject(void)
 	maxTag=0;
 }
 
-
 GameObject::~GameObject(void)
 {
 	for(list<Effect*>::iterator i=pEffectArray.begin();i!=pEffectArray.end();i++) {

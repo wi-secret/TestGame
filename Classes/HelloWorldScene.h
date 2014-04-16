@@ -7,6 +7,7 @@
 #include "proj.win32\MovableObject.h"
 #include "proj.win32\BasicObject.h"
 #include "proj.win32\SelfObject.h"
+#include "proj.win32\ShieldedObject.h"
 #include "proj.win32\Effect.h"
 #include "proj.win32\e_speedlimit.h"
 #include "proj.win32\e_sethealth.h"
@@ -36,6 +37,7 @@ private:
 	SelfObject* selfUnit;
 	MortalObject* enemy;
 	cocos2d::CCSprite* s_background;
+	ShieldedObject* shield_unit;
 
 	std::list<GameObject*> GameObjects;
 

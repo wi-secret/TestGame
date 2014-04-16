@@ -1,5 +1,6 @@
 #pragma once
 #include "ShieldedObject.h"
+std::map<int, cocos2d::CCAnimation *>* ShieldedObject::shieldAnimations;
 
 ShieldedObject::ShieldedObject()
 {
@@ -9,12 +10,14 @@ ShieldedObject::ShieldedObject()
 	ShieldEfficiency = 1;
 	ShieldRegenration = 0;
 }
+void ShieldedObject::AI()
+{
 
+}
 int ShieldedObject::playShieldAnimation(int angle, int damage)
 {
 	CCAnimate* animate;
-	map<int,cocos2d::CCAnimation*>::iterator it = getShieldAnimations()->find(angle);
-
+	map<int,cocos2d::CCAnimation*>::iterator it = getShieldAnimations()->find(0);
 	if (it == getShieldAnimations()->end()) 
 	{
 		return 0;
@@ -23,7 +26,10 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 	{
 		animate = CCAnimate::create(it->second);
 	}
-	runAction(animate);
+	animate->setDuration(1);
+	runAction(CCSequence::create(animate,
+		CCToggleVisibility::create(),
+		NULL));
 	return 1;
 }
 
@@ -31,15 +37,29 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 {
 	if (shieldAnimations == NULL)
 	{
-		for (int i = 0; i < 360; i++)
+		shieldAnimations = new map<int, cocos2d::CCAnimation*>;
+		for (int i = 0; i < 1; i++)
 		{
-			cocos2d::CCAnimation *animation;
+			CCAnimation *animation;
 			animation = CCAnimation::create();
+			animation->setDelayPerUnit(0.005);
+			animation->addSpriteFrameWithFileName("shield5.png");
+			animation->addSpriteFrameWithFileName("shield4.png");
+			animation->addSpriteFrameWithFileName("shield3.png");
+			animation->addSpriteFrameWithFileName("shield2.png");
+			animation->addSpriteFrameWithFileName("shield1.png");
+			animation->addSpriteFrameWithFileName("shield.png");
+			animation->addSpriteFrameWithFileName("shield1.png");
+			animation->addSpriteFrameWithFileName("shield2.png");
+			animation->addSpriteFrameWithFileName("shield3.png");
+			animation->addSpriteFrameWithFileName("shield4.png");
+			animation->addSpriteFrameWithFileName("shield5.png");
+			animation->retain();
 			(*shieldAnimations)[i] = animation;
 		}
 		cocos2d::CCAnimation* animation;
 		animation = CCAnimation::create();
-		(*shieldAnimations)[WHOLE_SHIELD] = animation;
+		(*shieldAnimations)[1] = animation;//WHOLE_SHIELD
 	}
 	return shieldAnimations;
 }
@@ -76,4 +96,19 @@ long long ShieldedObject::GetShield()
 ShieldedObject::~ShieldedObject()
 {
 
+}
+int ShieldedObject::onDestroy()
+{
+	return 1;
+}
+ShieldedObject* ShieldedObject::create()
+{
+	ShieldedObject *pObject = new ShieldedObject();
+	if (pObject && pObject->init())
+	{
+		pObject->autorelease();
+		return pObject;
+	}
+	CC_SAFE_DELETE(pObject);
+	return NULL;
 }
