@@ -44,11 +44,12 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 	return shieldAnimations;
 }
 
-int ShieldedObject::SetMaxShield()
+long long ShieldedObject::SetMaxShield(long long _maxshield)
 {
+	MaxShield = _maxshield;
 	return MaxShield;
 }
-int ShieldedObject::GetMaxShield()
+long long ShieldedObject::GetMaxShield()
 {
 	return MaxShield;
 }
@@ -57,16 +58,18 @@ int ShieldedObject::GetShieldReg()
 {
 	return ShieldRegenration;
 }
-int ShieldedObject::SetShieldReg()
+int ShieldedObject::SetShieldReg(int _shieldreg)
 {
+	ShieldRegenration = _shieldreg;
 	return ShieldRegenration;
 }
 
-int ShieldedObject::SetShield()
+long long ShieldedObject::SetShield(long long _shield)
 {
+	Shield = _shield;
 	return Shield;
 }
-int ShieldedObject::GetShield()
+long long ShieldedObject::GetShield()
 {
 	return Shield;
 }

@@ -8,8 +8,8 @@ class ShieldedObject : public GameObject
 
 public:
 
-	int MaxShield;
-	int Shield;
+	long long MaxShield;
+	long long Shield;
 	int ShieldType;
 	double ShieldEfficiency;
 	int ShieldRegenration;
@@ -18,14 +18,14 @@ public:
 
 	int playShieldAnimation(int angle, int damage);
 
-	int SetMaxShield();
-	int GetMaxShield();
+	long long SetMaxShield(long long maxshield);
+	long long GetMaxShield();
 
 	int GetShieldReg();
-	int SetShieldReg();
+	int SetShieldReg(int shieldreg);
 
-	int SetShield();
-	int GetShield();
+	long long SetShield(long long shield);
+	long long GetShield();
 
 	static std::map<int, cocos2d::CCAnimation *>* getShieldAnimations();
 
