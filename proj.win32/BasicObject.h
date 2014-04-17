@@ -12,7 +12,7 @@ public:
 
 	virtual void AI();
 
-	virtual int onHurt();//由e_health::execute()调用，播放动画。
+	virtual int onHurt(int damage,int angle);//由e_health::execute()调用，播放动画。
 
 	~BasicObject();
 

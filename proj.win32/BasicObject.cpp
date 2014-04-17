@@ -47,9 +47,9 @@ BasicObject::BasicObject()
 	unit_type = DEFAULT_UT;
 }
 
-int BasicObject::onHurt()
+int BasicObject::onHurt(int damage,int angle)
 {
-	MortalObject::onHurt();
+	MortalObject::onHurt(damage);
 	return 1;
 }
 

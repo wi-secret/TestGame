@@ -24,9 +24,9 @@ public:
 
 	virtual void AI();
 
-	bool check();
+	bool checkHealth();
 
-	virtual int onHurt();//由e_health::execute()调用，播放动画。
+	virtual int onHurt(int damage);//由e_health::execute()调用，播放动画。
 
 	int isDestroyed;
 

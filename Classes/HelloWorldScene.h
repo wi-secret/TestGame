@@ -38,7 +38,7 @@ private:
 	MortalObject* enemy;
 	cocos2d::CCSprite* s_background;
 	ShieldedObject* shield_unit;
-
+	ShieldedObject* shield_unit2;
 	std::list<GameObject*> GameObjects;
 
 	void redraw();

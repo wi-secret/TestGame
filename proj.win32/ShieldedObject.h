@@ -16,10 +16,11 @@ public:
 	int ShieldRegenration;
 
 	static ShieldedObject* create();
+	static ShieldedObject* create(const char* image);
 
 	static std::map<int, cocos2d::CCAnimation *>* shieldAnimations;
 
-	int playShieldAnimation(int angle, int damage);
+	int playShieldAnimation(int angle, int damage);//根据角度和伤害改变动画尚未实现
 
 	long long SetMaxShield(long long maxshield);
 	long long GetMaxShield();
@@ -29,17 +30,21 @@ public:
 
 	long long SetShield(long long shield);
 	long long GetShield();
-
-	static std::map<int, cocos2d::CCAnimation *>* getShieldAnimations();
-
+	
 	virtual void AI();
+
+	virtual int onHurt(int damage,int angle);
+
+	bool checkShield();
 
 	~ShieldedObject();
 
 protected:
 
 	ShieldedObject();
-	
+
+	static std::map<int, cocos2d::CCAnimation *>* getShieldAnimations();
+
 	virtual int onDestroy();//由AI调用，将自己释放
 };
 

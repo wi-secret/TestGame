@@ -1,6 +1,6 @@
+#pragma once
 #include "MortalObject.h"
-
-
+#include "HelloWorldScene.h"
 MortalObject::MortalObject()
 {
 	max_health = 1;
@@ -16,7 +16,7 @@ MortalObject::~MortalObject()
 void MortalObject::cbDestroy()
 {
 	this->setVisible(false);
-	//this->getParent()->removeChild(this, false);
+	this->getParent()->removeChild(this,true);
 }
 
 int MortalObject::onDestroy()
@@ -25,10 +25,15 @@ int MortalObject::onDestroy()
 		return 0;
 	CCFiniteTimeAction* action;
 	action = CCSequence::create(CCBlink::create(2, 8),
-		CCCallFunc::create(this, callfunc_selector(MortalObject::cbDestroy)),
+		CCCallFuncO::create(this->getParent()->getParent(), 
+							SEL_CallFuncO(&HelloWorld::unregGameObject),
+							this),
+		CCCallFunc::create(this, 
+							callfunc_selector(MortalObject::cbDestroy)),
 		NULL);
+
 	runAction(action);
-	isDestroyed = 1;
+	isDestroyed = true;
 	return 1;
 }
 
@@ -36,10 +41,10 @@ void MortalObject::AI()
 {
 	GameObject::AI();
 	SetHealth(GetHealth() + GetHealthReg());
-	check();
+	checkHealth();
 }
 
-bool  MortalObject::check()
+bool  MortalObject::checkHealth()
 {
 	if (health > max_health)
 	{
@@ -51,8 +56,9 @@ bool  MortalObject::check()
 	return true;
 }
 
-int MortalObject::onHurt()
+int MortalObject::onHurt(int change)
 {
+	health += change;
 	CCFiniteTimeAction* action;
 	action = CCSequence::create(CCFadeTo::create(0.5, 120),
 		CCFadeTo::create(0.25, 255),
@@ -65,7 +71,7 @@ int MortalObject::onHurt()
 long long MortalObject::SetHealth(long long _health)
 {
 	health = _health;
-	check();
+	checkHealth();
 	return health;
 }
 long long MortalObject::GetHealth()

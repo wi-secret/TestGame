@@ -1,14 +1,17 @@
 #include "e_sethealth.h"
 
-void e_sethealth::execute(){
-	MortalObject *parent = (MortalObject*)GetParent();
-	parent->SetHealth(parent->GetHealth() + health_change);
-	parent->onHurt();
+void e_sethealth::execute()
+{
+	MortalObject *parent = (MortalObject*)GetParent();//需要改动
+	parent->onHurt(health_change);//angle missing
+	isExecuted = true;
+	backup();
 }
 
 e_sethealth::e_sethealth(int _priority, int damage) :Effect(_priority)
 {
 	health_change = damage;
+	isExecuted = false;
 }
 
 e_sethealth::~e_sethealth() {
@@ -21,14 +24,9 @@ e_sethealth::~e_sethealth() {
 
 void e_sethealth::onStart()
 {
-	MortalObject *parent = (MortalObject*)GetParent();
-	parent->SetHealth(parent->GetHealth() + health_change);
-	parent->onHurt();
 }
 
 bool e_sethealth::isEnd()
 {
-	if (((MortalObject*)GetParent())->isDestroyed)
-		return 1;
-	else return 0;
+	return isExecuted;
 }

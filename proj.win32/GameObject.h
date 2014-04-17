@@ -8,6 +8,8 @@ using namespace std;
 using namespace cocos2d;
 class Effect;
 
+
+
 typedef bool (*forEffect)(Effect* effect,int effectID, void* userdata);
 
 class GameObject :
@@ -30,6 +32,8 @@ public:
 protected:
 	virtual int onDestroy()=0;
 	
+	int ObjectType;
+
 	GameObject(void);
 private:
 	list<Effect*> pEffectArray;

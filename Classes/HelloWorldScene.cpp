@@ -84,7 +84,7 @@ bool HelloWorld::init()
 	enemy = BasicObject::create("enemy.png", 20, HEAVY_UT);
 	enemy->setPosition(ccp(20, 30));
 	enemy->SetHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -5));
+	enemy->addEffect(new e_sethealth(0, -100));
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	
@@ -93,6 +93,11 @@ bool HelloWorld::init()
 	s_background->addChild(shield_unit);
 	shield_unit->playShieldAnimation(1, 1);
 	
+	shield_unit2 = ShieldedObject::create();
+	shield_unit2->setPosition(ccp(100, 100));
+	s_background->addChild(shield_unit2);
+	shield_unit2->playShieldAnimation(1, 1);
+
 	scheduleUpdate();
     return true;
 }

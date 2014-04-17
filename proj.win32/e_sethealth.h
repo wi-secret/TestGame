@@ -1,11 +1,13 @@
 #pragma once
 #include "Effect.h"
 #include "MortalObject.h"
+#include "ShieldedObject.h"
 
 class Effect;
 
 class e_sethealth :public Effect{
 public:
+	
 	virtual int getType() { return TEST_EC_HP; }
 	virtual bool isType(int type) {
 		if (Effect::isType(type))
@@ -34,5 +36,7 @@ protected:
 
 	int health_change;
 
-
+private:
+	
+	bool isExecuted;
 };
