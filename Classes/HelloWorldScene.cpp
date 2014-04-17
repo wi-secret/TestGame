@@ -115,7 +115,7 @@ void HelloWorld::update(float dt) {
 	}
 	//clear NULL pointer
 	list<GameObject*>::iterator it;
-	while ((it = find(GameObjects.begin(), GameObjects.end(), NULL)) != GameObjects.end()) {
+	while ((it = find(GameObjects.begin(), GameObjects.end(), (GameObject*)NULL)) != GameObjects.end()) {
 		GameObjects.remove_if(isnullptr);
 	}
 	redraw();
