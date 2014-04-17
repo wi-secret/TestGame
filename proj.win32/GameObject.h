@@ -39,6 +39,7 @@ private:
 	list<Effect*> pEffectArray;
 	unsigned int maxTag;
 
+
 	static bool effectPrioritySort(Effect*,Effect*);
 };
 

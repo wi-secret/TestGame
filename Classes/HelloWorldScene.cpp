@@ -103,14 +103,27 @@ bool HelloWorld::init()
 }
 
 void HelloWorld::unregGameObject(GameObject* pObject) {
-	GameObjects.remove(pObject);
+	list<GameObject*>::iterator it=find(GameObjects.begin(),GameObjects.end(),pObject);
+	*it = NULL;
 }
 
 void HelloWorld::update(float dt) {
 	for(list<GameObject*>::iterator i=GameObjects.begin();i!=GameObjects.end();i++) {
-		(*i)->AI();
+		if (*i != NULL) {
+			(*i)->AI();
+		}
+	}
+	//clear NULL pointer
+	list<GameObject*>::iterator it;
+	while ((it = find(GameObjects.begin(), GameObjects.end(), NULL)) != GameObjects.end()) {
+		GameObjects.remove_if(isnullptr);
 	}
 	redraw();
+}
+
+
+static bool isnullptr(const GameObject* val) {
+	return val == NULL;
 }
 
 void HelloWorld::redraw() {

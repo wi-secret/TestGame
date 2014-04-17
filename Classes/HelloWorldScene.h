@@ -51,6 +51,7 @@ private:
 
 	virtual void update(float dt);
 
+	static bool isnullptr(const GameObject*);
 public:
 	void regGameObject(GameObject* pObject);
 	void unregGameObject(GameObject* pObject);
