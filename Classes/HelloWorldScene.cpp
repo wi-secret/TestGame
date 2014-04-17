@@ -122,7 +122,7 @@ void HelloWorld::update(float dt) {
 }
 
 
-static bool isnullptr(const GameObject* val) {
+bool HelloWorld::isnullptr(const GameObject* val) {
 	return val == NULL;
 }
 
