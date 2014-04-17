@@ -1,6 +1,7 @@
 #pragma once
 #include "MortalObject.h"
 #include "HelloWorldScene.h"
+
 MortalObject::MortalObject()
 {
 	max_health = 1;
@@ -16,22 +17,26 @@ MortalObject::~MortalObject()
 void MortalObject::cbDestroy()
 {
 	this->setVisible(false);
-	this->getParent()->removeChild(this,true);
+	//((HelloWorld*)(this->getParent()->getParent()))->unregGameObject(this);
+	((HelloWorld*)(CCDirector::sharedDirector()->getRunningScene()))->unregGameObject(this);
+	this->getParent()->removeChild(this, true);
 }
 
 int MortalObject::onDestroy()
 {
+	
+	static CCBlink* action;
+	if (isDestroyed){
+		if (action->isDone())
+		{
+			action->autorelease();
+			cbDestroy();
+		}
+	}
 	if (isDestroyed)
 		return 0;
-	CCFiniteTimeAction* action;
-	action = CCSequence::create(CCBlink::create(2, 8),
-		CCCallFuncO::create(this->getParent()->getParent(), 
-							SEL_CallFuncO(&HelloWorld::unregGameObject),
-							this),
-		CCCallFunc::create(this, 
-							callfunc_selector(MortalObject::cbDestroy)),
-		NULL);
-
+	action = new CCBlink;
+	action->initWithDuration(1, 3);
 	runAction(action);
 	isDestroyed = true;
 	return 1;
@@ -52,6 +57,7 @@ bool  MortalObject::checkHealth()
 		return false;
 	}
 	if (health <= 0)
+		SetHealthReg(0);
 		onDestroy();
 	return true;
 }
@@ -71,7 +77,7 @@ int MortalObject::onHurt(int change)
 long long MortalObject::SetHealth(long long _health)
 {
 	health = _health;
-	checkHealth();
+	//checkHealth();
 	return health;
 }
 long long MortalObject::GetHealth()
