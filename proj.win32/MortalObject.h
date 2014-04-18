@@ -6,7 +6,7 @@
 #define HEAVY_UT 1
 #define LIGHT_UT 2
 
-class MortalObject :public GameObject{
+class MortalObject :virtual public GameObject{
 public:
 	long long max_health;
 	long long health;

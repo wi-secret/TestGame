@@ -57,8 +57,10 @@ bool  MortalObject::checkHealth()
 		return false;
 	}
 	if (health <= 0)
+	{
 		SetHealthReg(0);
 		onDestroy();
+	}
 	return true;
 }
 

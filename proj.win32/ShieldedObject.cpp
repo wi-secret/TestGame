@@ -29,8 +29,11 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 	{
 		animate = CCAnimate::create(it->second);
 	}
-	animate->setDuration(0.3);
-	runAction(animate);
+	animate->setDuration(0.3f);
+	//runAction(animate);
+	this->addChild(node);
+	node->setRotation(angle);
+	node->runAction(animate);
 	return 1;
 }
 
@@ -47,7 +50,7 @@ int ShieldedObject::onHurt(int change,int angle)
 		Shield = 0;
 		addEffect(new e_sethealth(0, change));
 	}
-	playShieldAnimation(1, 1);
+	playShieldAnimation(change, angle);
 	return Shield;
 }
 
@@ -73,7 +76,7 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 		{
 			CCAnimation *animation;
 			animation = CCAnimation::create();
-			animation->setDelayPerUnit(0.05);
+			animation->setDelayPerUnit(0.05f);
 			animation->addSpriteFrameWithFileName("shield7.png");
 			animation->addSpriteFrameWithFileName("shield6.png");
 			animation->addSpriteFrameWithFileName("shield5.png");
@@ -141,9 +144,15 @@ int ShieldedObject::onDestroy()
 ShieldedObject* ShieldedObject::create()
 {
 	ShieldedObject *pObject = new ShieldedObject();
+	pObject->node = new CCNode();
 	if (pObject && pObject->init())
 	{
 		pObject->autorelease();
+		if (pObject->node && pObject->node->init())
+		{
+			//pObject->node->setPosition(ccp(0, 0));
+			//pObject->addChild(pObject->node);
+		}
 		return pObject;
 	}
 	CC_SAFE_DELETE(pObject);
@@ -153,9 +162,14 @@ ShieldedObject* ShieldedObject::create()
 ShieldedObject* ShieldedObject::create(const char* image)
 {
 	ShieldedObject *pObject = new ShieldedObject();
+	pObject->node = new CCNode();
 	if (pObject && pObject->initWithFile(image))
 	{
 		pObject->autorelease();
+		if (pObject->node && pObject->node->init())
+		{
+			//pObject->addChild(pObject->node);
+		}
 		return pObject;
 	}
 	CC_SAFE_DELETE(pObject);

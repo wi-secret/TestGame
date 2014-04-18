@@ -4,7 +4,7 @@
 #define DEFAULT_SHT 0
 #define WHOLE_SHIELD -1
 
-class ShieldedObject : public GameObject
+class ShieldedObject :virtual public GameObject
 {
 
 public:
@@ -17,7 +17,7 @@ public:
 
 	static ShieldedObject* create();
 	static ShieldedObject* create(const char* image);
-
+	
 	static std::map<int, cocos2d::CCAnimation *>* shieldAnimations;
 
 	int playShieldAnimation(int angle, int damage);//根据角度和伤害改变动画尚未实现
@@ -38,6 +38,8 @@ public:
 	bool checkShield();
 
 	~ShieldedObject();
+
+	CCNode* node;
 
 protected:
 

@@ -2,7 +2,7 @@
 
 
 void e_speedlimit::execute() {
-	MovableObject *par = (MovableObject*)GetParent();
+	MovableObject *par = dynamic_cast<MovableObject*>(GetParent());
 	par->speed = ccp(0, 0);
 }
 

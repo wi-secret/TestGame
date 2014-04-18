@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 
-class MovableObject :public GameObject {
+class MovableObject :virtual public GameObject {
 public:
 	CCPoint speed;
 	double palstance;//½ÇËÙ¶È

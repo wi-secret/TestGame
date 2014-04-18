@@ -66,7 +66,7 @@ int BasicObject::onDestroy()
 
 void BasicObject::AI()
 {
-	//speed.x = 0.1;
-	//speed.y = 0.13;
+	speed.x = 0.1;
+	speed.y = 0.13;
 	MortalObject::AI();
 }

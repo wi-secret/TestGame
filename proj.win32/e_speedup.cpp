@@ -13,7 +13,7 @@ e_speedup::e_speedup(int _priority, int direct) :Effect(_priority) {
 }
 
 void e_speedup::execute() {
-	MovableObject *par = (MovableObject*)GetParent();
+	MovableObject *par = dynamic_cast<MovableObject*>(GetParent());
 	switch (direction)
 	{
 	case E_SPDUP_DIRECT_DOWN:
