@@ -1,7 +1,7 @@
 #pragma once
 #include "MortalObject.h"
-
-class BasicObject : public MortalObject, public MovableObject
+#include "ShieldedObject.h"
+class BasicObject : public MortalObject, public MovableObject,public ShieldedObject
 {
 public:
 	int unit_type;//生命类实例的种类。牵涉到具体游戏内容，影响AI()执行方式

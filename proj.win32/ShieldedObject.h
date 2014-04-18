@@ -8,7 +8,7 @@ class ShieldedObject :virtual public GameObject
 {
 
 public:
-
+	
 	long long MaxShield;
 	long long Shield;
 	int ShieldType;
@@ -22,14 +22,14 @@ public:
 
 	int playShieldAnimation(int angle, int damage);//根据角度和伤害改变动画尚未实现
 
-	long long SetMaxShield(long long maxshield);
-	long long GetMaxShield();
+	long long setMaxShield(long long maxshield);
+	long long getMaxShield();
 
-	int GetShieldReg();
-	int SetShieldReg(int shieldreg);
+	int getShieldReg();
+	int setShieldReg(int shieldreg);
 
-	long long SetShield(long long shield);
-	long long GetShield();
+	long long setShield(long long shield);
+	long long getShield();
 	
 	virtual void AI();
 

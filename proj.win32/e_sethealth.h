@@ -1,7 +1,6 @@
 #pragma once
 #include "Effect.h"
-#include "MortalObject.h"
-#include "ShieldedObject.h"
+#include "BasicObject.h"
 
 class Effect;
 

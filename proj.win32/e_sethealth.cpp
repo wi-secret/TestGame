@@ -2,8 +2,8 @@
 
 void e_sethealth::execute()
 {
-	MortalObject *parent =dynamic_cast<MortalObject*>(GetParent());//需要改动
-	parent->onHurt(health_change);//angle missing
+	MortalObject *parent = dynamic_cast<MortalObject*>(GetParent());//不一般，需要改动MortalObject
+	parent->onHurt(health_change, -180);
 	isExecuted = true;
 	backup();
 }

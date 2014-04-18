@@ -80,11 +80,11 @@ bool HelloWorld::init()
 	selfUnit->addEffect(new e_speedlimit(0));
 	s_background->addChild(selfUnit);
 	regGameObject(selfUnit);
-
-	enemy = BasicObject::create("enemy.png", 20, HEAVY_UT);
+	
+	enemy = BasicObject::create("enemy.png",20);
 	enemy->setPosition(ccp(20, 30));
-	enemy->SetHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -100));
+	enemy->setHealthReg(4);
+	enemy->addEffect(new e_sethealth(0, -1000));
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	

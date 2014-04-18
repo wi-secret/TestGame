@@ -45,7 +45,7 @@ int MortalObject::onDestroy()
 void MortalObject::AI()
 {
 	GameObject::AI();
-	SetHealth(GetHealth() + GetHealthReg());
+	setHealth(getHealth() + getHealthReg());
 	checkHealth();
 }
 
@@ -58,13 +58,13 @@ bool  MortalObject::checkHealth()
 	}
 	if (health <= 0)
 	{
-		SetHealthReg(0);
+		setHealthReg(0);
 		onDestroy();
 	}
 	return true;
 }
 
-int MortalObject::onHurt(int change)
+int MortalObject::onHurt(int change,int angle)
 {
 	health += change;
 	CCFiniteTimeAction* action;
@@ -76,30 +76,30 @@ int MortalObject::onHurt(int change)
 }
 
 
-long long MortalObject::SetHealth(long long _health)
+long long MortalObject::setHealth(long long _health)
 {
 	health = _health;
 	//checkHealth();
 	return health;
 }
-long long MortalObject::GetHealth()
+long long MortalObject::getHealth()
 {
 	return health;
 }
-long long MortalObject::SetMaxHealth(long long _max_health)
+long long MortalObject::setMaxHealth(long long _max_health)
 {
 	return (max_health = _max_health);
 }
-long long MortalObject::GetMaxHealth()
+long long MortalObject::getMaxHealth()
 {
 	return max_health;
 }
-int MortalObject::SetHealthReg(int reg)
+int MortalObject::setHealthReg(int reg)
 {
 	healthReg = reg;
 	return healthReg;
 }
-int MortalObject::GetHealthReg()
+int MortalObject::getHealthReg()
 {
 	return healthReg;
 }

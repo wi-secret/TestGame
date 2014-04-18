@@ -9,10 +9,12 @@ ShieldedObject::ShieldedObject()
 	Shield = 1;
 	ShieldType = DEFAULT_SHT;
 	ShieldEfficiency = 1;
-	ShieldRegenration = 0;
+	ShieldRegenration = 1;
+
 }
 void ShieldedObject::AI()
 {
+	GameObject::AI();
 	Shield += ShieldRegenration;
 	ShieldEfficiency = Shield / MaxShield;
 	checkShield();
@@ -31,7 +33,7 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 	}
 	animate->setDuration(0.83f);
 	//runAction(animate);
-	this->addChild(node);
+	
 	node->setRotation(angle);
 	node->runAction(animate);
 	return 1;
@@ -42,13 +44,13 @@ int ShieldedObject::onHurt(int change,int angle)
 	if (Shield + change * ShieldEfficiency >= 0)
 	{
 		Shield += change * ShieldEfficiency;
-		addEffect(new e_sethealth(0, change*(1 - ShieldEfficiency)));
+		addEffect(new e_sethealth(-1, change*(1 - ShieldEfficiency)));
 	}
 	else
 	{
 		change += Shield;
 		Shield = 0;
-		addEffect(new e_sethealth(0, change));
+		addEffect(new e_sethealth(-1, change));
 	}
 	playShieldAnimation(change, angle);
 	return Shield;
@@ -104,32 +106,32 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 	return shieldAnimations;
 }
 
-long long ShieldedObject::SetMaxShield(long long in_maxshield)
+long long ShieldedObject::setMaxShield(long long in_maxshield)
 {
 	MaxShield = in_maxshield;
 	return MaxShield;
 }
-long long ShieldedObject::GetMaxShield()
+long long ShieldedObject::getMaxShield()
 {
 	return MaxShield;
 }
 
-int ShieldedObject::GetShieldReg()
+int ShieldedObject::getShieldReg()
 {
 	return ShieldRegenration;
 }
-int ShieldedObject::SetShieldReg(int in_shieldReg)
+int ShieldedObject::setShieldReg(int in_shieldReg)
 {
 	ShieldRegenration = in_shieldReg;
 	return ShieldRegenration;
 }
 
-long long ShieldedObject::SetShield(long long in_shield)
+long long ShieldedObject::setShield(long long in_shield)
 {
 	Shield = in_shield;
 	return Shield;
 }
-long long ShieldedObject::GetShield()
+long long ShieldedObject::getShield()
 {
 	return Shield;
 }
@@ -147,12 +149,10 @@ ShieldedObject* ShieldedObject::create()
 	pObject->node = new CCSprite();
 	if (pObject && pObject->init())
 	{
+		pObject->node->init();
+		pObject->addChild(pObject->node);
+		//node->autorelease();
 		pObject->autorelease();
-		if (pObject->node && pObject->node->init())
-		{
-			//pObject->node->setPosition(ccp(0, 0));
-			//pObject->addChild(pObject->node);
-		}
 		return pObject;
 	}
 	CC_SAFE_DELETE(pObject);
@@ -168,7 +168,8 @@ ShieldedObject* ShieldedObject::create(const char* image)
 		pObject->autorelease();
 		if (pObject->node && pObject->node->init())
 		{
-			//pObject->addChild(pObject->node);
+			pObject->node->init();
+			pObject->addChild(pObject->node);
 		}
 		return pObject;
 	}

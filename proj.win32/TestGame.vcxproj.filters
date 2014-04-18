@@ -72,6 +72,9 @@
     <ClCompile Include="ShieldedObject.cpp">
       <Filter>GameClasses</Filter>
     </ClCompile>
+    <ClCompile Include="EnergizedObjet.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -123,6 +126,9 @@
       <Filter>GameClasses</Filter>
     </ClInclude>
     <ClInclude Include="ShieldedObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="EnergizedObject.h">
       <Filter>GameClasses</Filter>
     </ClInclude>
   </ItemGroup>

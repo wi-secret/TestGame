@@ -35,7 +35,7 @@ public:
 private:
 
 	SelfObject* selfUnit;
-	MortalObject* enemy;
+	BasicObject* enemy;
 	cocos2d::CCSprite* s_background;
 	ShieldedObject* shield_unit;
 	ShieldedObject* shield_unit2;

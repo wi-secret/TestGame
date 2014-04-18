@@ -15,22 +15,22 @@ public:
 	static MortalObject* create();
 	static MortalObject* create(const char* image);
 
-	long long SetHealth(long long _health);
-	long long GetHealth();
-	long long SetMaxHealth(long long _max_health);
-	long long GetMaxHealth();
-	int SetHealthReg(int reg);
-	int GetHealthReg();
+	long long setHealth(long long _health);
+	long long getHealth();
+	long long setMaxHealth(long long _max_health);
+	long long getMaxHealth();
+	int setHealthReg(int reg);
+	int getHealthReg();
 
 	virtual void AI();
 
 	bool checkHealth();
 
-	virtual int onHurt(int damage);//由e_health::execute()调用，播放动画。
+	virtual int onHurt(int damage, int angle);//由e_health::execute()调用，播放动画。
 
 	int isDestroyed;
 
-	virtual void cbDestroy();
+	void cbDestroy();
 
 	~MortalObject();
 protected:
