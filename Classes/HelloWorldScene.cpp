@@ -88,15 +88,17 @@ bool HelloWorld::init()
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	
+
+
 	shield_unit = ShieldedObject::create();
 	shield_unit->setPosition(ccp(50, 100));
 	s_background->addChild(shield_unit);
-	//shield_unit->playShieldAnimation(1, 1);
-	
+	shield_unit->playShieldAnimation(1, 1);
+	if (shield_unit->getChildrenCount() == 0)exit(1);
 	shield_unit2 = ShieldedObject::create();
 	shield_unit2->setPosition(ccp(100, 100));
 	s_background->addChild(shield_unit2);
-	shield_unit2->playShieldAnimation(1, 1);
+	shield_unit2->playShieldAnimation(60, 1);
 
 	scheduleUpdate();
     return true;

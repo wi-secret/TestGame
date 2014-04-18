@@ -39,7 +39,7 @@ public:
 
 	~ShieldedObject();
 
-	CCNode* node;
+	CCSprite* node;
 
 protected:
 

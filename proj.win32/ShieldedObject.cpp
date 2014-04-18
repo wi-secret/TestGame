@@ -29,7 +29,7 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 	{
 		animate = CCAnimate::create(it->second);
 	}
-	animate->setDuration(0.3f);
+	animate->setDuration(0.83f);
 	//runAction(animate);
 	this->addChild(node);
 	node->setRotation(angle);
@@ -144,7 +144,7 @@ int ShieldedObject::onDestroy()
 ShieldedObject* ShieldedObject::create()
 {
 	ShieldedObject *pObject = new ShieldedObject();
-	pObject->node = new CCNode();
+	pObject->node = new CCSprite();
 	if (pObject && pObject->init())
 	{
 		pObject->autorelease();
@@ -162,7 +162,7 @@ ShieldedObject* ShieldedObject::create()
 ShieldedObject* ShieldedObject::create(const char* image)
 {
 	ShieldedObject *pObject = new ShieldedObject();
-	pObject->node = new CCNode();
+	pObject->node = new CCSprite();
 	if (pObject && pObject->initWithFile(image))
 	{
 		pObject->autorelease();
