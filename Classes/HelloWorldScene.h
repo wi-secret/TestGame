@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 #include "proj.win32\GameObject.h"
 #include "proj.win32\MortalObject.h"
 #include "proj.win32\MovableObject.h"
