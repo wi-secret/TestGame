@@ -9,7 +9,8 @@ BasicObject* BasicObject::create(const char* image, int level)
 	{
 		pObject->autorelease();
 		pObject->level = level;
-		pObject->setHealth(pObject->max_health = level * 15);
+		pObject->setHealth(pObject->setMaxHealth(level * 15));
+		pObject->setShield(pObject->setMaxShield(level * 10));
 		pObject->node->init();
 		pObject->node->autorelease();
 		pObject->addChild(pObject->node);

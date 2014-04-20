@@ -81,10 +81,10 @@ bool HelloWorld::init()
 	s_background->addChild(selfUnit);
 	regGameObject(selfUnit);
 	
-	enemy = BasicObject::create("enemy.png",20);
+	enemy = BasicObject::create("enemy.png",200);
 	enemy->setPosition(ccp(20, 30));
 	enemy->setHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -1000));
+	enemy->addEffect(new e_sethealth(0, -500));
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	

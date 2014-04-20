@@ -12,6 +12,7 @@ ShieldedObject::ShieldedObject()
 	ShieldRegenration = 1;
 
 }
+
 void ShieldedObject::AI()
 {
 	GameObject::AI();
@@ -19,6 +20,7 @@ void ShieldedObject::AI()
 	ShieldEfficiency = Shield / MaxShield;
 	checkShield();
 }
+
 int ShieldedObject::playShieldAnimation(int angle, int damage)
 {
 	CCAnimate* animate;
@@ -44,6 +46,7 @@ int ShieldedObject::onHurt(int change,int angle)
 	if (Shield + change * ShieldEfficiency >= 0)
 	{
 		Shield += change * ShieldEfficiency;
+		if (change*(1-ShieldEfficiency) < 0)
 		addEffect(new e_sethealth(-1, change*(1 - ShieldEfficiency)));
 	}
 	else
