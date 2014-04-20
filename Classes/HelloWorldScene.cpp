@@ -82,9 +82,9 @@ bool HelloWorld::init()
 	regGameObject(selfUnit);
 	
 	enemy = BasicObject::create("enemy.png",200);
-	enemy->setPosition(ccp(20, 30));
+	enemy->setPosition(ccp(400, 200));
 	enemy->setHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -500));
+	enemy->addEffect(new e_sethealth(0, -500,60));
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	
@@ -98,7 +98,7 @@ bool HelloWorld::init()
 	shield_unit2 = ShieldedObject::create();
 	shield_unit2->setPosition(ccp(100, 100));
 	s_background->addChild(shield_unit2);
-	shield_unit2->playShieldAnimation(60, 1);
+	shield_unit2->playShieldAnimation(0, 1);
 
 	scheduleUpdate();
     return true;

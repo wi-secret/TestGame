@@ -21,7 +21,7 @@ void ShieldedObject::AI()
 	checkShield();
 }
 
-int ShieldedObject::playShieldAnimation(int angle, int damage)
+int ShieldedObject::playShieldAnimation(int damage, int angle)
 {
 	CCAnimate* animate;
 	map<int,cocos2d::CCAnimation*>::iterator it = getShieldAnimations()->find(0);
@@ -35,7 +35,7 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 	}
 	animate->setDuration(0.83f);
 	//runAction(animate);
-	
+	node->setAnchorPoint(ccp(0.5, 0.5));
 	node->setRotation(angle);
 	node->runAction(animate);
 	return 1;
@@ -43,19 +43,19 @@ int ShieldedObject::playShieldAnimation(int angle, int damage)
 
 int ShieldedObject::onHurt(int change,int angle)
 {
+	playShieldAnimation(change, angle);
 	if (Shield + change * ShieldEfficiency >= 0)
 	{
 		Shield += change * ShieldEfficiency;
 		if (change*(1-ShieldEfficiency) < 0)
-		addEffect(new e_sethealth(-1, change*(1 - ShieldEfficiency)));
+		addEffect(new e_sethealth(-1, change*(1 - ShieldEfficiency),angle));
 	}
 	else
 	{
 		change += Shield;
 		Shield = 0;
-		addEffect(new e_sethealth(-1, change));
+		addEffect(new e_sethealth(-1, change, angle));
 	}
-	playShieldAnimation(change, angle);
 	return Shield;
 }
 
@@ -172,6 +172,8 @@ ShieldedObject* ShieldedObject::create(const char* image)
 		if (pObject->node && pObject->node->init())
 		{
 			pObject->node->init();
+			pObject->node->setPosition(ccp(pObject->getContentSize().width / 2,
+				pObject->getContentSize().height/ 2));
 			pObject->addChild(pObject->node);
 		}
 		return pObject;

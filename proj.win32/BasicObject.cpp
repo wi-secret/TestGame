@@ -13,6 +13,8 @@ BasicObject* BasicObject::create(const char* image, int level)
 		pObject->setShield(pObject->setMaxShield(level * 10));
 		pObject->node->init();
 		pObject->node->autorelease();
+		pObject->node->setPosition(ccp(pObject->getContentSize().width / 2,
+			pObject->getContentSize().height / 2));
 		pObject->addChild(pObject->node);
 		return pObject;
 	}
@@ -43,6 +45,8 @@ BasicObject* BasicObject::create(const char* image, int level, int unit_type)
 		}
 		pObject->node->init();
 		pObject->node->autorelease();
+		pObject->node->setPosition(ccp(pObject->getContentSize().width / 2,
+			pObject->getContentSize().height / 2));
 		pObject->addChild(pObject->node);
 		return pObject;
 	}

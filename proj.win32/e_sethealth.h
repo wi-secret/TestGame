@@ -13,7 +13,7 @@ public:
 			return true;
 		return TEST_EC_HP == type;
 	}
-	e_sethealth(int _priority, int damage);
+	e_sethealth(int _priority, int damage,int angle);
 	virtual ~e_sethealth();
 protected:
 	virtual void backup() {
@@ -34,7 +34,7 @@ protected:
 	virtual bool isEnd();
 
 	int health_change;
-
+	int angle;
 private:
 	
 	bool isExecuted;
