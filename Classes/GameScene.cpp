@@ -1,9 +1,17 @@
-#include "HelloWorldScene.h"
+#include "GameScene.h"
 
 //for debug use include
 #include <Windows.h>
 
 USING_NS_CC;
+
+
+CCScene* HelloWorld::scene()
+{
+	HelloWorld *scene = HelloWorld::create();
+
+	return scene;
+}
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
@@ -74,7 +82,6 @@ bool HelloWorld::init()
 
 
 	selfUnit = SelfObject::create("self.png");
-
 	CCPoint bgSize = s_background->getContentSize();
 	selfUnit->setPosition(ccp(bgSize.x / 2, bgSize.y / 2));
 	selfUnit->addEffect(new e_speedlimit(0));
@@ -88,22 +95,20 @@ bool HelloWorld::init()
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 
-
-
 	shield_unit = ShieldedObject::create();
 	shield_unit->setPosition(ccp(50, 100));
 	s_background->addChild(shield_unit);
 	shield_unit->playShieldAnimation(1, 1);
-	if (shield_unit->getChildrenCount() == 0)exit(1);
+	
 	shield_unit2 = ShieldedObject::create();
 	shield_unit2->setPosition(ccp(100, 100));
 	s_background->addChild(shield_unit2);
 	shield_unit2->playShieldAnimation(0, 1);
 
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("Age of Gods.wav");//非wav格式音频需调用
-	//CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.01);//这玩意儿没用的= =
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Age of Gods.wav", false);
-	
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("Bad-Apple.mp3");//非wav格式音频需调用,需实现
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Bad-Apple.mp3", false);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.5);//
+
 	scheduleUpdate();
 	return true;
 }

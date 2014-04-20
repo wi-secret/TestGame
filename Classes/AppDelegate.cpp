@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "GameScene.h"
 #include "proj.win32\MyKeyboardControl.h"
 
 USING_NS_CC;

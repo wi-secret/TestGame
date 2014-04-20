@@ -1,6 +1,6 @@
 #pragma once
 #include "MortalObject.h"
-#include "HelloWorldScene.h"
+#include "GameScene.h"
 
 MortalObject::MortalObject()
 {
