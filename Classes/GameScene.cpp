@@ -104,10 +104,10 @@ bool HelloWorld::init()
 	shield_unit2->setPosition(ccp(100, 100));
 	s_background->addChild(shield_unit2);
 	shield_unit2->playShieldAnimation(0, 1);
-
-	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("Bad-Apple.mp3");//非wav格式音频需调用,需实现
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Bad-Apple.mp3", false);
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.5);//
+	
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("MSJnG - Shop.ogg");//非wav格式音频需调用,需实现
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("MSJnG - Shop.wav", true);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.3);//需实现
 
 	scheduleUpdate();
 	return true;
