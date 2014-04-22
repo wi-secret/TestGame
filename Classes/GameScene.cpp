@@ -44,8 +44,8 @@ bool HelloWorld::init()
 
 	// add a "close" icon to exit the progress. it's an autorelease object
 	CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
+		"res/image/CloseNormal.png",
+		"res/image/CloseSelected.png",
 		this,
 		menu_selector(HelloWorld::menuCloseCallback));
 
@@ -73,7 +73,7 @@ bool HelloWorld::init()
 	this->addChild(pLabel, 1);
 
 	// add "HelloWorld" splash screen"
-	s_background = CCSprite::create("HelloWorld.png");
+	s_background = CCSprite::create("res/image/HelloWorld.png");
 
 	// position the sprite on the center of the screen
 	s_background->setPosition(ccp(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
@@ -81,14 +81,14 @@ bool HelloWorld::init()
 	this->addChild(s_background, 0);
 
 
-	selfUnit = SelfObject::create("self.png");
+	selfUnit = SelfObject::create("res/image/self.png");
 	CCPoint bgSize = s_background->getContentSize();
 	selfUnit->setPosition(ccp(bgSize.x / 2, bgSize.y / 2));
 	selfUnit->addEffect(new e_speedlimit(0));
 	s_background->addChild(selfUnit);
 	regGameObject(selfUnit);
 
-	enemy = BasicObject::create("enemy.png", 200);
+	enemy = BasicObject::create("res/image/enemy.png", 200);
 	enemy->setPosition(ccp(400, 200));
 	enemy->setHealthReg(4);
 	enemy->addEffect(new e_sethealth(0, -500, 60));
@@ -106,7 +106,7 @@ bool HelloWorld::init()
 	shield_unit2->playShieldAnimation(0, 1);
 	
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("MSJnG - Shop.ogg");//非wav格式音频需调用,需实现
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("MSJnG - Shop.wav", true);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("res/sound/MSJnG - Shop.wav", true);
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.3);//需实现
 
 	scheduleUpdate();

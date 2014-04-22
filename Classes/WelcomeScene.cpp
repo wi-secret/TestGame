@@ -24,7 +24,7 @@ bool WelcomeScene::init()
 
 void WelcomeScene::playAnimation()
 {
-	project_logo = CCSprite::create("极东project.png");
+	project_logo = CCSprite::create("res/image/极东project.png");
 	project_logo->setAnchorPoint(ccp(0.5, 0.5));
 	project_logo->setPosition(ccp(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	addChild(project_logo, 1);
@@ -37,6 +37,7 @@ void WelcomeScene::playAnimation()
 		CCCallFunc::create(this, callfunc_selector(WelcomeScene::cbShowParticle_2)),
 		action_p3,
 		action_p3,
+		action_p1,
 		action_p4,
 		NULL);
 	action->retain();
@@ -68,13 +69,13 @@ WelcomeScene* WelcomeScene::create()
 }
 void WelcomeScene::cbShowParticle()
 {
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("开场音.wav");
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("res/sound/开场音.wav");
 	particle_1 = CCParticleGalaxy::createWithTotalParticles(300);
 	particle_2 = CCParticleGalaxy::createWithTotalParticles(300);
 	particle_1->setLife(2.0f);
 	particle_1->setStartSize(60);
-	particle_1->setEndSize(45);
-	particle_1->setSpeed(-25);
+	particle_1->setEndSize(85);
+	particle_1->setSpeed(-35);
 	particle_1->setSpeedVar(4);
 	particle_1->setTangentialAccel(-80);
 	particle_1->setGravity(ccp(0.0f, 0.0f));
@@ -87,8 +88,8 @@ void WelcomeScene::cbShowParticle()
 
 	particle_2->setLife(2.0f);
 	particle_2->setStartSize(60);
-	particle_2->setEndSize(45);
-	particle_2->setSpeed(25);
+	particle_2->setEndSize(85);
+	particle_2->setSpeed(35);
 	particle_2->setSpeedVar(4);
 	particle_2->setGravity(ccp(0.0f, 0.0f));
 	particle_2->setEmissionRate(300.0 / 2.0);
@@ -103,8 +104,8 @@ void WelcomeScene::cbShowParticle()
 
 void WelcomeScene::cbShowParticle_2()
 {
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("森林火.wav");
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("木柴火.wav");
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("res/sound/森林火.wav");
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("res/sound/木柴火.wav");
 	particle_1 = CCParticleFire::createWithTotalParticles(550);
 	particle_2 = CCParticleFire::createWithTotalParticles(550);
 
@@ -117,7 +118,7 @@ void WelcomeScene::cbShowParticle_2()
 	particle_1->setPosition(ccp(origin.x + visibleSize.width / 2 - project_logo->getContentSize().width / 2 - 100,
 		origin.y + visibleSize.height / 2));
 	particle_1->runAction(CCSequence::create(CCMoveBy::create(0.8f, ccp(project_logo->getContentSize().width, 0)),
-		CCDelayTime::create(2.8f),
+		CCDelayTime::create(3.0f),
 		CCCallFunc::create(this, callfunc_selector(WelcomeScene::cbHideParticle)),
 		NULL));
 
@@ -130,7 +131,7 @@ void WelcomeScene::cbShowParticle_2()
 	particle_2->setPosition(ccp(origin.x + visibleSize.width / 2 + project_logo->getContentSize().width / 2 + 100,
 		origin.y + visibleSize.height / 2));
 	particle_2->runAction(CCSequence::create(CCMoveBy::create(0.8, ccp(-project_logo->getContentSize().width, 0)),
-		CCDelayTime::create(2.8f),
+		CCDelayTime::create(3.0f),
 		CCCallFunc::create(this, callfunc_selector(WelcomeScene::cbHideParticle)),
 		NULL));
 	addChild(particle_1);
