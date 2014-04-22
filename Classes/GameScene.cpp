@@ -94,6 +94,7 @@ bool HelloWorld::init()
 	enemy->addEffect(new e_sethealth(0, -500, 60));
 	regGameObject(enemy);
 	s_background->addChild(enemy);
+	enemy->addEffect(new e_timelimit(0, 500));
 
 	shield_unit = ShieldedObject::create();
 	shield_unit->setPosition(ccp(50, 100));

@@ -13,6 +13,7 @@
 #include "proj.win32\e_speedlimit.h"
 #include "proj.win32\e_sethealth.h"
 #include "proj.win32\e_speedup.h"
+#include "proj.win32\e_timelimit.h"
 #include "proj.win32\MyKeyboardControl.h"
 #include "proj.win32\GameController.h"
 #include <list>
