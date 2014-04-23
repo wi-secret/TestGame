@@ -3,6 +3,7 @@
 
 EnergizedObject::EnergizedObject()
 {
+	ObjectType = TEST_ENERGY_OBJ;
 	MaxEnergyStock = 1;
 	EnergyStock = 1;
 	EnergyReg = 0;

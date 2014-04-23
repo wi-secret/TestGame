@@ -1,91 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="GameObject" Collapsed="true">
-    <Position X="3.75" Y="0.5" Width="1.5" />
+    <Position X="3.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AVAAAAABKAgAAAAAAAAAAAAAAAAAAIAAAIAAAAIAAQE=</HashCode>
+      <HashCode>AVAAAAABKBgAAAAAAAAAAAAAAAAAAIAAAIAAAAIAAQE=</HashCode>
       <FileName>GameObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ShieldedObject" Collapsed="true">
-    <Position X="2.75" Y="2" Width="1.5" />
+    <Position X="2.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQgAAEAAAAFAUJAAAAFAAAAAABEAAAAABAhABAAAAwA=</HashCode>
       <FileName>ShieldedObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SelfObject" Collapsed="true">
-    <Position X="5" Y="3.5" Width="1.5" />
+    <Position X="5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>SelfObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MovableObject" Collapsed="true">
-    <Position X="5" Y="2" Width="1.5" />
+    <Position X="5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ARAAAAAAAAAAAAAAoCCCAAAAAAAAAQAAEQRABAAAAQA=</HashCode>
       <FileName>MovableObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MortalObject" Collapsed="true">
-    <Position X="7.25" Y="2" Width="1.5" />
+    <Position X="7.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAEQIAABAgAAAAAAAAAAQBABEAAIICIABAAAAAAQg=</HashCode>
+      <HashCode>AQAAEQIAAAAgAAAAAAAAAAQBABEAAIICIABAAAAAAQg=</HashCode>
       <FileName>MortalObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnergizedObject" Collapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
+    <Position X="0.5" Y="5" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="EnergizedObject::powerUnit" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EnergizedObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Struct Name="EnergizedObject::__unnamed_struct_044b_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EnergizedObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>BYAAAACACIAAAMAAAAAAACAAAAAIAIQAAABIAAAAAYQ=</HashCode>
       <FileName>EnergizedObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Effect" Collapsed="true">
-    <Position X="2.75" Y="7.5" Width="1.5" />
+    <Position X="5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAACIBAAwQAABAAAhEABBAARAAEABAAAAAIAQAGAA=</HashCode>
       <FileName>Effect.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="e_speedup" Collapsed="true">
-    <Position X="0.5" Y="8.75" Width="1.5" />
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAQIAAAAAgEQBAAAZAAAAAAAAAAAAAACAQ=</HashCode>
       <FileName>e_speedup.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="e_speedlimit" Collapsed="true">
-    <Position X="2.75" Y="8.75" Width="1.5" />
+    <Position X="5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIACAgAAAAAAAgEABAAARAAAAAAAAAAAAAACAA=</HashCode>
       <FileName>e_speedlimit.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="e_sethealth" Collapsed="true">
-    <Position X="5" Y="8.75" Width="1.5" />
+    <Position X="7.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAiEABAAARAAAIAAAAAAAABBCAA=</HashCode>
       <FileName>e_sethealth.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BasicObject" Collapsed="true">
-    <Position X="5" Y="5.5" Width="1.5" />
+    <Position X="5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAACAAAABAAAAACAAAAABEAAAAAAABAAAAAAQA=</HashCode>
       <FileName>BasicObject.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="e_timelimit" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAIAAAAAAAAAAAkEABAAARAAAAQgAAAAAAAACAA=</HashCode>
+      <FileName>e_timelimit.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="e_setenergy" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAgEABBAARAAAAAAAAAADAABCAA=</HashCode>
+      <FileName>e_setenergy.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Typedef Name="forEffect" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Position X="13.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObject.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="cbPowerSup" Collapsed="true">
-    <Position X="9.75" Y="0.5" Width="1.5" />
+    <Position X="12" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>EnergizedObject.h</FileName>

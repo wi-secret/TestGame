@@ -10,8 +10,9 @@
 #define TEST_EC_SPDLMT -1
 #define TEST_EC_SPDUP -2
 #define TEST_EC_HP -3
+#define TEST_EC_ENERGY -5
 #define TEST_EC_TMLMT -4
-
+#define TEST_EC_MAXHP -6
 class GameObject;
 //任何派生自Effect的类需要实现如下函数
 /*

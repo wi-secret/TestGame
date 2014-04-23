@@ -13,7 +13,7 @@ public:
 			return true;
 		return TEST_EC_HP == type;
 	}
-	e_sethealth(int _priority, int damage,int angle);
+	e_sethealth(int _priority, int HP_change, int angle);
 	virtual ~e_sethealth();
 protected:
 	virtual void backup() {

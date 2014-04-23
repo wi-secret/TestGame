@@ -3,15 +3,22 @@
 void e_sethealth::execute()
 {
 	MortalObject *parent = dynamic_cast<MortalObject*>(GetParent());//不一般，需要改动MortalObject
-	parent->onHurt(health_change, angle);
+	if (health_change < 0)
+	{
+		parent->onHurt(health_change, angle);
+	}
+	if (health_change > 0)
+	{
+		parent->setHealth(parent->getHealth() + health_change);
+	}
 	isExecuted = true;
 	backup();
 }
 
-e_sethealth::e_sethealth(int _priority, int _damage,int _angle) :Effect(_priority)
+e_sethealth::e_sethealth(int _priority, int HP_change,int _angle) :Effect(_priority)
 {
 	angle = _angle;
-	health_change = _damage;
+	health_change = HP_change;
 	isExecuted = false;
 }
 

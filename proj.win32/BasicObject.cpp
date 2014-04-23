@@ -56,6 +56,7 @@ BasicObject* BasicObject::create(const char* image, int level, int unit_type)
 
 BasicObject::BasicObject()
 {
+	ObjectType = TEST_BASIC_OBJ;
 	level = 1;
 	unit_type = DEFAULT_UT;
 }
@@ -83,4 +84,8 @@ void BasicObject::AI()
 	speed.y = 0.13;
 	ShieldedObject::AI();
 	MortalObject::AI();
+	if (isDestroyed && ObjectType == TEST_BASIC_OBJ)
+	{
+		onDestroy();
+	}
 }

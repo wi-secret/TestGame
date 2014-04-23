@@ -5,6 +5,7 @@ std::map<int, cocos2d::CCAnimation *>* ShieldedObject::shieldAnimations;
 
 ShieldedObject::ShieldedObject()
 {
+	ObjectType = TEST_SHIELD_OBJ;
 	MaxShield = 1;
 	Shield = 1;
 	ShieldType = DEFAULT_SHT;
@@ -140,7 +141,6 @@ long long ShieldedObject::getShield()
 }
 ShieldedObject::~ShieldedObject()
 {
-
 }
 int ShieldedObject::onDestroy()
 {
@@ -154,7 +154,7 @@ ShieldedObject* ShieldedObject::create()
 	{
 		pObject->node->init();
 		pObject->addChild(pObject->node);
-		//node->autorelease();
+		pObject->node->autorelease();
 		pObject->autorelease();
 		return pObject;
 	}
@@ -175,6 +175,8 @@ ShieldedObject* ShieldedObject::create(const char* image)
 			pObject->node->setPosition(ccp(pObject->getContentSize().width / 2,
 				pObject->getContentSize().height/ 2));
 			pObject->addChild(pObject->node);
+			pObject->node->autorelease();
+			pObject->autorelease();
 		}
 		return pObject;
 	}

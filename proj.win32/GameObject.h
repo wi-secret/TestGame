@@ -8,7 +8,12 @@ using namespace std;
 using namespace cocos2d;
 class Effect;
 
-
+#define TEST_GAME_OBJ -1
+#define TEST_MOV_OBJ -2
+#define TEST_MOR_OBJ -3
+#define TEST_ENERGY_OBJ -4
+#define TEST_SHIELD_OBJ -5
+#define TEST_BASIC_OBJ -6
 
 typedef bool (*forEffect)(Effect* effect,int effectID, void* userdata);
 

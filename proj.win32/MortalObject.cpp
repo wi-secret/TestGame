@@ -4,6 +4,7 @@
 
 MortalObject::MortalObject()
 {
+	ObjectType = TEST_MOR_OBJ;
 	max_health = 1;
 	health = 1;
 	isDestroyed = 0;
@@ -32,10 +33,10 @@ int MortalObject::onDestroy()
 
 void MortalObject::AI()
 {
-	GameObject::AI();//MortalObject不用于实例化对象，则此行可去除
+	GameObject::AI();//测试用，MortalObject不用于实例化对象，则此行可去除
 	setHealth(getHealth() + getHealthReg());
 	checkHealth();
-	if (isDestroyed)
+	if (isDestroyed && ObjectType==TEST_MOR_OBJ)
 	{
 		onDestroy();
 	}

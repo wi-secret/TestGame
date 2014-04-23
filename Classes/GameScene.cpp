@@ -108,7 +108,7 @@ bool HelloWorld::init()
 	
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("MSJnG - Shop.ogg");//非wav格式音频需调用,需实现
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("res/sound/MSJnG - Shop.wav", true);
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.3);//需实现
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.1);//需实现
 
 	scheduleUpdate();
 	return true;

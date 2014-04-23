@@ -5,6 +5,7 @@ GameObject::GameObject(void)
 {
 	maxTag = 0;
 	isDestroyed = 0;
+	ObjectType = TEST_BASIC_OBJ;
 }
 
 GameObject::~GameObject(void)
