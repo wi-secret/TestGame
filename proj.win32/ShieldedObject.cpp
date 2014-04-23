@@ -18,7 +18,7 @@ void ShieldedObject::AI()
 {
 	GameObject::AI();//ShieldObject不用于实例化对象，则此行可去除
 	Shield += ShieldRegenration;
-	ShieldEfficiency = Shield / MaxShield;
+	//ShieldEfficiency = Shield / MaxShield;
 	checkShield();
 }
 
@@ -34,7 +34,7 @@ int ShieldedObject::playShieldAnimation(int damage, int angle)
 	{
 		animate = CCAnimate::create(it->second);
 	}
-	animate->setDuration(0.83f);
+	animate->setDuration(0.13f);
 	//runAction(animate);
 	node->setAnchorPoint(ccp(0.5, 0.5));
 	node->setRotation(angle);
@@ -82,6 +82,7 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 		{
 			CCAnimation *animation;
 			animation = CCAnimation::create();
+			animation->retain();
 			animation->setDelayPerUnit(0.05f);
 			animation->addSpriteFrameWithFileName("res/image/shield7.png");
 			animation->addSpriteFrameWithFileName("res/image/shield6.png");
@@ -103,9 +104,6 @@ std::map<int, cocos2d::CCAnimation*>* ShieldedObject::getShieldAnimations()
 			animation->addSpriteFrameWithFileName("res/image/shield0.png");
 			(*shieldAnimations)[i] = animation;
 		}
-		cocos2d::CCAnimation* animation;
-		animation = CCAnimation::create();
-		(*shieldAnimations)[1] = animation;//WHOLE_SHIELD
 	}
 	return shieldAnimations;
 }
@@ -141,6 +139,14 @@ long long ShieldedObject::getShield()
 }
 ShieldedObject::~ShieldedObject()
 {
+	for (map<int, cocos2d::CCAnimation*>::iterator it = getShieldAnimations()->begin();
+		it != getShieldAnimations()->end();
+		it++)
+	if (it->second != NULL)
+	{
+		delete (it->second);
+		it->second = NULL;
+	}
 }
 int ShieldedObject::onDestroy()
 {

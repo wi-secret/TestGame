@@ -91,7 +91,8 @@ bool HelloWorld::init()
 	enemy = BasicObject::create("res/image/enemy.png", 200);
 	enemy->setPosition(ccp(400, 200));
 	enemy->setHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -500, 60));//500伤害，60度入射
+	enemy->addEffect(new e_sethealth(0, -500, 60));//500伤害，60度入射角
+
 	regGameObject(enemy);
 	s_background->addChild(enemy);
 	enemy->addEffect(new e_timelimit(0, 500));//500帧后销毁
@@ -108,7 +109,7 @@ bool HelloWorld::init()
 	
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("MSJnG - Shop.ogg");//非wav格式音频需调用,需实现
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("res/sound/MSJnG - Shop.wav", true);
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.1);//需实现
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.1);//需实现,仅对mp3有效，对wav无效
 
 	scheduleUpdate();
 	return true;
