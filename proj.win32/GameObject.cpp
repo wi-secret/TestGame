@@ -16,13 +16,10 @@ GameObject::~GameObject(void)
 }
 
 int GameObject::addEffect(Effect* effect) {
-	pEffectArray.push_back(effect);
+	pEffectAddArray.push_back(effect);
 	effect->tag=maxTag;
 	effect->parent=this;
-	(effect->*(effect->__onStart))();
-	effect->backup();
 	maxTag++;
-	pEffectArray.sort(GameObject::effectPrioritySort);
 	return maxTag-1;
 }
 
@@ -56,6 +53,13 @@ void GameObject::foreachEffect(forEffect f,void* userdata) {
 
 void GameObject::AI() {
 	list<int> removeList;
+	for(list<Effect*>::iterator i=pEffectAddArray.begin();i!=pEffectAddArray.end();i++) {
+		((*i)->*((*i)->__onStart))();
+		(*i)->backup();
+		pEffectArray.push_back(*i);
+	}
+	pEffectAddArray.clear();
+	pEffectArray.sort();
 	for(list<Effect*>::iterator i=pEffectArray.begin();i!=pEffectArray.end();i++) {
 		if(((*i)->*((*i)->__isEnd))()) {
 			removeList.push_back((*i)->tag);
