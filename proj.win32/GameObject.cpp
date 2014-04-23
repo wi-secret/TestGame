@@ -3,7 +3,8 @@
 
 GameObject::GameObject(void)
 {
-	maxTag=0;
+	maxTag = 0;
+	isDestroyed = 0;
 }
 
 GameObject::~GameObject(void)

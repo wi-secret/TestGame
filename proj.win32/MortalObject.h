@@ -28,8 +28,6 @@ public:
 
 	virtual int onHurt(int damage, int angle);//由e_health::execute()调用，播放动画。
 
-	int isDestroyed;
-
 	void cbDestroy();
 
 	~MortalObject();

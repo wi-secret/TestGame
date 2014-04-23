@@ -29,6 +29,7 @@ public:
 	
 	~GameObject(void);
 	
+	bool isDestroyed;
 protected:
 	virtual int onDestroy()=0;
 	

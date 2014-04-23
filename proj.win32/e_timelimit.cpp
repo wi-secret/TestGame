@@ -33,7 +33,7 @@ void e_timelimit::execute()
 	{
 		dynamic_cast<HelloWorld*>(CCDirector::sharedDirector()->getRunningScene())->unregGameObject(GetParent());
 		//GetParent()->retain();//仅在debug时谨慎使用
-		GetParent()->getParent()->removeChild(GetParent(), false);
+		GetParent()->isDestroyed = true;
 	}
 }
 

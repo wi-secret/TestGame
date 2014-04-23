@@ -16,37 +16,29 @@ MortalObject::~MortalObject()
 
 void MortalObject::cbDestroy()
 {
-	this->setVisible(false);
-	//((HelloWorld*)(this->getParent()->getParent()))->unregGameObject(this);
-	((HelloWorld*)(CCDirector::sharedDirector()->getRunningScene()))->unregGameObject(this);
 	this->getParent()->removeChild(this, true);
 }
 
 int MortalObject::onDestroy()
 {
 	
-	static CCBlink* action;
-	if (isDestroyed){
-		if (action->isDone())
-		{
-			action->autorelease();
-			cbDestroy();
-		}
-	}
-	if (isDestroyed)
-		return 0;
-	action = new CCBlink;
-	action->initWithDuration(1, 3);
-	runAction(action);
-	isDestroyed = true;
+	CCBlink* action;
+	action = CCBlink::create(1, 3);
+	runAction(CCSequence::create( action,
+		CCCallFunc::create(this, callfunc_selector(CCSprite::removeFromParent)),
+		NULL));
 	return 1;
 }
 
 void MortalObject::AI()
 {
-	GameObject::AI();
+	GameObject::AI();//MortalObject不用于实例化对象，则此行可去除
 	setHealth(getHealth() + getHealthReg());
 	checkHealth();
+	if (isDestroyed)
+	{
+		onDestroy();
+	}
 }
 
 bool  MortalObject::checkHealth()
@@ -56,17 +48,19 @@ bool  MortalObject::checkHealth()
 		health = max_health;
 		return false;
 	}
-	if (health <= 0)
+	if (health <= 0 && !isDestroyed)
 	{
 		setHealthReg(0);
-		onDestroy();
+		isDestroyed = true;
+		((HelloWorld*)(CCDirector::sharedDirector()->getRunningScene()))->unregGameObject(this);
+		return true;
 	}
-	return true;
+	return false;
 }
 
 int MortalObject::onHurt(int change,int angle)
 {
-	health += change;
+	setHealth(getHealth() + change);
 	CCFiniteTimeAction* action;
 	action = CCSequence::create(CCFadeTo::create(0.5, 120),
 		CCFadeTo::create(0.25, 255),

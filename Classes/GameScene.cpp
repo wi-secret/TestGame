@@ -91,10 +91,10 @@ bool HelloWorld::init()
 	enemy = BasicObject::create("res/image/enemy.png", 200);
 	enemy->setPosition(ccp(400, 200));
 	enemy->setHealthReg(4);
-	enemy->addEffect(new e_sethealth(0, -500, 60));
+	enemy->addEffect(new e_sethealth(0, -500, 60));//500伤害，60度入射
 	regGameObject(enemy);
 	s_background->addChild(enemy);
-	enemy->addEffect(new e_timelimit(0, 500));
+	enemy->addEffect(new e_timelimit(0, 500));//500帧后销毁
 
 	shield_unit = ShieldedObject::create();
 	shield_unit->setPosition(ccp(50, 100));

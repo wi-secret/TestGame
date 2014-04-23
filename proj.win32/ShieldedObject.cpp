@@ -15,7 +15,7 @@ ShieldedObject::ShieldedObject()
 
 void ShieldedObject::AI()
 {
-	GameObject::AI();
+	GameObject::AI();//ShieldObject不用于实例化对象，则此行可去除
 	Shield += ShieldRegenration;
 	ShieldEfficiency = Shield / MaxShield;
 	checkShield();

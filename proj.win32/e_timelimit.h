@@ -1,7 +1,7 @@
 #pragma once
 #include "Effect.h"
 
-//时限影响，设定存在时限
+//时限影响，设定存在时限，用于生命周期限定
 
 class e_timelimit : public Effect
 {
