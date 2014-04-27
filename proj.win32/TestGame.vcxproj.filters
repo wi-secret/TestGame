@@ -13,15 +13,18 @@
     <Filter Include="GameClasses">
       <UniqueIdentifier>{a40c6ce1-e2c3-42f8-8c4a-ee03965a6981}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameClasses\Effects">
+      <UniqueIdentifier>{689c1204-570b-42ca-9e4a-0ddb7283a409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameClasses\Objects">
+      <UniqueIdentifier>{31c2b59a-f343-46c2-a390-3972e07c5ac7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="MyKeyboardControl.cpp">
@@ -42,38 +45,53 @@
     <ClCompile Include="GameController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>GameClasses</Filter>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="MovableObject.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfObject.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="MortalObject.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="e_speedup.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="e_speedlimit.cpp">
-      <Filter>GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="e_sethealth.cpp">
-      <Filter>GameClasses</Filter>
+    <ClCompile Include="..\Classes\WelcomeScene.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="BasicObject.cpp">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameClasses\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="MortalObject.cpp">
+      <Filter>GameClasses\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableObject.cpp">
+      <Filter>GameClasses\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfObject.cpp">
+      <Filter>GameClasses\Objects</Filter>
     </ClCompile>
     <ClCompile Include="ShieldedObject.cpp">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
     </ClCompile>
     <ClCompile Include="EnergizedObjet.cpp">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_sethealth.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_speedlimit.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_speedup.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_timelimit.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_setenergy.cpp">
+      <Filter>GameClasses\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="e_setmaxhealth.cpp">
+      <Filter>GameClasses\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +99,6 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="MyKeyboardControl.h">
@@ -98,38 +113,58 @@
     <ClInclude Include="GameController.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>GameClasses</Filter>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="MovableObject.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfObject.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="MortalObject.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="e_speedup.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="e_sethealth.h">
-      <Filter>GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="e_speedlimit.h">
-      <Filter>GameClasses</Filter>
+    <ClInclude Include="..\Classes\WelcomeScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="BasicObject.h">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameClasses\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MortalObject.h">
+      <Filter>GameClasses\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableObject.h">
+      <Filter>GameClasses\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfObject.h">
+      <Filter>GameClasses\Objects</Filter>
     </ClInclude>
     <ClInclude Include="ShieldedObject.h">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
     </ClInclude>
     <ClInclude Include="EnergizedObject.h">
-      <Filter>GameClasses</Filter>
+      <Filter>GameClasses\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="e_sethealth.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedlimit.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedup.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="e_timelimit.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="e_setenergy.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="e_setmaxhealth.h">
+      <Filter>GameClasses\Effects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd">
+      <Filter>GameClasses</Filter>
+    </None>
   </ItemGroup>
 </Project>
