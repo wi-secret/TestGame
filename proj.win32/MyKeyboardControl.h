@@ -22,6 +22,11 @@ typedef struct __cbCombinKeyFunc{
 
 //所有pop函数均不支持在checkKeyState阶段调用
 
+#define KEY_IDLE 0
+#define KEY_DOWN 1
+#define KEY_HOLD 2
+#define KEY_RELEASE 3
+
 class MyKeyboardControl
 {
 public:
@@ -32,9 +37,15 @@ public:
 	void popKeyCallback(int keyValue);
 	void clearKeyMap();
 	static MyKeyboardControl* getInstance();
+	//结束程序时需调用release()
 	static void release();
 	void checkKeyState();
+
+	//需要修改设定的时候setActivation(false),可以使得状态监测函数失效.
 	void setActivation(bool);
+
+	//初始化按键状态,设置完按键，开始监视按键的时候调用.
+	void resetState();
 
 	//现阶段长按和组合键只支持单个函数
 	void pushHoldKeyCallback(int keyValue,onKeyDown onStart,onKeyDown onHold,onKeyDown onRelease,void *userdata);
@@ -58,9 +69,15 @@ private:
 	void deleteCombinKeyMap(cbCombinKeyFunc*);
 	void checkCombinKey();
 	void checkHoldKey();
+
+	//resetState()的辅助函数
+	void resetCombinKeyState(cbCombinKeyFunc*);
+
 	//辅助链式添加的变量
 	cbCombinKeyFunc *crntAddPos;
 	//辅助判定组合键按键顺序变量
 	vector<cbCombinKeyFunc*> keyOrders;
 	vector<unsigned char> vkeyOrders;
+
+	map<unsigned char,int> keysStat;
 };
