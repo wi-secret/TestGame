@@ -43,6 +43,8 @@ protected:
 	GameObject(void);
 private:
 	list<Effect*> pEffectArray;
+	list<Effect*> pEffectAddArray;
+	
 	unsigned int maxTag;
 
 

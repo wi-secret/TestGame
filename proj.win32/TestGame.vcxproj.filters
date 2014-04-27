@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{d7b8fc6b-b9d7-4bd5-b5a3-7d405e44b9b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameClasses">
+      <UniqueIdentifier>{a40c6ce1-e2c3-42f8-8c4a-ee03965a6981}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MyKeyboardControl.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="MortalObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="e_speedup.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="e_speedlimit.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="e_sethealth.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="ShieldedObject.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="EnergizedObjet.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\WelcomeScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="e_timelimit.cpp">
+      <Filter>GameClasses</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="MyKeyboardControl.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MortalObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedup.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_sethealth.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="e_speedlimit.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="ShieldedObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="EnergizedObject.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WelcomeScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="e_timelimit.h">
+      <Filter>GameClasses</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
