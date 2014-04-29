@@ -39,6 +39,7 @@ public:
 	static MyKeyboardControl* getInstance();
 	//结束程序时需调用release()
 	static void release();
+	//按键监视主函数
 	void checkKeyState();
 
 	//需要修改设定的时候setActivation(false),可以使得状态监测函数失效.
@@ -48,16 +49,21 @@ public:
 	void resetState();
 
 	//现阶段长按和组合键只支持单个函数
+
+	//长按的set,get,clear函数
 	void pushHoldKeyCallback(int keyValue,onKeyDown onStart,onKeyDown onHold,onKeyDown onRelease,void *userdata);
 	void popHoldKeyCallback(int keyValue);
 	void clearHoldKeyMap();
 
+	//组合键的set,get,clear函数
 	void pushCombinKeyCallback(vector<unsigned char>& keyOrder,onKeyDown cbFunc,void *userdata);
 	//链式添加
 	MyKeyboardControl* addCombinKey(unsigned char key=0,onKeyDown cbFunc=NULL,void* userdata=NULL);
 	static bool clear_combin_key_func(void*);
 	void clearCombinKeyMap();
-
+	
+	//清除所有按键设定
+	void clearAllKeyMap();
 private:
 	MyKeyboardControl();
 	static MyKeyboardControl* theInstance;

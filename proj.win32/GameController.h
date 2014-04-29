@@ -14,7 +14,12 @@
 #define MYGC_GAME_LK_MD 3
 #define MYGC_GAME_LK_RL 4
 #define MYGC_GAME_LK_RR 5
-
+/*
+*可以允许通过平台层级的controler获取/设置指定逻辑按键的物理按键信息
+*物理按键信息应该通过一个智能指针类进行封装，并通过这个类型与一个统一的接口进行set/get
+*将GameController基类写作关于这个智能指针类的模板，各平台分别派生自不同的特化模板
+*游戏中设置按键的场景单独设置为一类，作为具体游戏controller的友元类/友元函数，通过上述的set/get函数进行按键设置
+*/
 
 typedef void (*onButtonDown)(void* buttonInfo,void* userdata);
 using namespace std;
@@ -38,8 +43,10 @@ public:
 	virtual void setToDefault() = 0;
 	//修复按键设定，即将没有实际按键相对的逻辑按键设为默认按键
 	virtual void repairKeyConfig() = 0;
-	//更改按键场景
+	//更改按键场景,支持热切换
 	void changeSceneTo(int sceneCode);
+
+	void enable(bool);
 
 protected:
 	virtual void linkHardwareKey() = 0;
@@ -59,19 +66,37 @@ public:
 	virtual bool loadConfig();
 	virtual void setToDefault();
 	virtual void repairKeyConfig();
-	//获得对应逻辑按键的虚拟键码值
-	int getvKey(int scene,int vlogic);
 protected:
 	virtual void linkHardwareKey();
 	virtual void dislinkHardwareKey();
 
 	static bool cbGeneralOnKeyDown(void* vLogicKey);
 
-	map<int, map<int, int> > hardwareKeyMaps;
-	map<int, map<int, int> > defualtKeyMaps;
 	const char* configFileStorage;
+
+	void setKey(int logicKey, int vKey);
+	void setDefaultKey(int logicKey,int vKey);
+	
+	void setHoldKey(int logicKey, int vKey, int keyState);
+	void setDefaultHoldKey(int logicKey, int vKey, int keyState);
+	
+	Win32KeyboardController* setCombinKey(int vKey, int logicKey);
+	Win32KeyboardController* setDefaultCombinKey(int vKey, int logicKey);
+
 private:
 	vector<int*> vlKey;
+	
+	//[场景][逻辑按键]->物理按键
+	map<int, map<int, int> > hardwareKeyMaps;
+	map<int, map<int, int> > defualtKeyMaps;
+
+	//[场景][逻辑按键]->{first:物理按键,second:状态}
+	map < int, map<int, pair<int, int>>> holdHardwareKeyMap;
+	map < int, map<int, pair<int, int>>> defualtHoldKeyMap;
+
+	//[场景][第n个按键]->{first:物理按键,second:逻辑按键}
+	map < int, vector<pair<int, int>>> combinHardwareKeyMap;
+	map < int, vector<pair<int, int>>> defualtCombinKeyMap;
 };
 
 class MyGameController : public Win32KeyboardController {

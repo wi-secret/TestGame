@@ -2,6 +2,16 @@
 
 MyGameController* GameController::theInstance = NULL;
 
+void GameController::enable(bool input) {
+	if(input){
+		dislinkHardwareKey();
+		linkHardwareKey();
+	}
+	else {
+		dislinkHardwareKey();
+	}
+}
+
 MyGameController* GameController::getInstance() {
 	if (theInstance == NULL) {
 		theInstance = new MyGameController();
@@ -109,7 +119,7 @@ bool Win32KeyboardController::loadConfig() {
 }
 
 void Win32KeyboardController::dislinkHardwareKey() {
-	MyKeyboardControl::getInstance()->clearKeyMap();
+	MyKeyboardControl::getInstance()->clearAllKeyMap();
 	for (vector<int*>::iterator i = vlKey.begin(); i != vlKey.end(); i++) {
 		delete *i;
 	}

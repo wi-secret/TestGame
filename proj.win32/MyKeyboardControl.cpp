@@ -271,3 +271,9 @@ void MyKeyboardControl::deleteCombinKeyMap(cbCombinKeyFunc* startpos) {
 	}
 	delete startpos;
 }
+
+void MyKeyboardControl::clearAllKeyMap() {
+	clearCombinKeyMap();
+	clearHoldKeyMap();
+	clearKeyMap();
+}
