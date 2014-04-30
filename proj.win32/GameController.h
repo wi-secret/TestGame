@@ -72,15 +72,15 @@ private:
 
 class Win32KeyboardController : public GameController<Win32KeyControlInfo> {
 public:
+	//重新实现这两个函数
 	virtual bool saveConfig();
 	virtual bool loadConfig();
+
 	virtual bool getLogicKeyInfo(int logicKey,Win32KeyControlInfo& info);
 	virtual void setLogicKeyInfo(int logicKey,Win32KeyControlInfo& info);
 protected:
 	virtual void linkHardwareKey();
 	virtual void dislinkHardwareKey();
-
-	static bool cbGeneralOnKeyDown(void* vLogicKey);
 
 	const char* configFileStorage;
 
@@ -88,15 +88,12 @@ private:
 	
 	//[场景][逻辑按键]->物理按键
 	map<int, map<int, int> > hardwareKeyMaps;
-	map<int, map<int, int> > defualtKeyMaps;
 
 	//[场景][逻辑按键]->{first:物理按键,second:状态}
 	map < int, map<int, pair<int, int>>> holdHardwareKeyMap;
-	map < int, map<int, pair<int, int>>> defualtHoldKeyMap;
 
-	//[场景][第n个按键]->{first:物理按键,second:逻辑按键}
-	map < int, vector<pair<int, int>>> combinHardwareKeyMap;
-	map < int, vector<pair<int, int>>> defualtCombinKeyMap;
+	//[场景][逻辑按键]->物理按键顺序
+	map < int, map<int,vector<unsigned char>>> combinHardwareKeyMap;
 };
 
 class MyGameController : public Win32KeyboardController {
@@ -118,9 +115,8 @@ class Win32KeyControlInfo{
 public:
 	Win32KeyControlInfo();
 	~Win32KeyControlInfo();
-
-	bool getAsCombinKey(vector<int> *keyOrders);
-	void setCombinKey(vector<int>& keyOrders);
+	bool getAsCombinKey(vector<unsigned char> *keyOrders);
+	void setCombinKey(vector<unsigned char>& keyOrders);
 	//链式添加
 	Win32KeyControlInfo* setCombinKey(int vkey=-1);
 

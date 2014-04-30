@@ -100,17 +100,11 @@ void MyKeyboardControl::checkCombinKey() {
 void MyKeyboardControl::checkHoldKey() {
 	for(map<unsigned char,cbHoldKeyFunc>::iterator i=holdKeyMap.begin();i!=holdKeyMap.end();i++) {
 		if(keysStat[i->first]==KEY_DOWN) {
-			if(i->second.onStart!=NULL) {
-				i->second.onStart(i->second.userdata);
-			}
+			i->second.onStart(i->second.userdata.start);
 		} else if(keysStat[i->first]==KEY_HOLD) {
-			if(i->second.onHold!=NULL) {
-				i->second.onHold(i->second.userdata);
-			}
+			i->second.onHold(i->second.userdata.hold);
 		} else if(keysStat[i->first]==KEY_RELEASE) {
-			if(i->second.onRelease!=NULL) {
-				i->second.onRelease(i->second.userdata);
-			}
+			i->second.onRelease(i->second.userdata.release);
 		}
 	}
 }
@@ -175,12 +169,14 @@ void MyKeyboardControl::setActivation(bool in) {
 	m_bisActive = in;
 }
 
-void MyKeyboardControl::pushHoldKeyCallback(int keyValue,onKeyDown onStart,onKeyDown onHold,onKeyDown onRelease,void *userdata) {
+void MyKeyboardControl::pushHoldKeyCallback(int keyValue,onKeyDown onStart,void* startUserdata,onKeyDown onHold,void* holdUserdata,onKeyDown onRelease,void *releaseUserdata) {
 	cbHoldKeyFunc holdkey;
 	holdkey.onHold=onHold;
 	holdkey.onStart=onStart;
 	holdkey.onRelease=onRelease;
-	holdkey.userdata=userdata;
+	holdkey.userdata.hold=holdUserdata;
+	holdkey.userdata.start=startUserdata;
+	holdkey.userdata.release=releaseUserdata;
 	holdKeyMap[keyValue]=holdkey;
 	keysStat[keyValue]=0;
 }

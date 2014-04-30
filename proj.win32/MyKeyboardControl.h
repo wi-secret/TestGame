@@ -3,14 +3,31 @@
 #include <list>
 #include <vector>
 #include <Windows.h>
+#include <functional>
+
 using namespace std;
 
-typedef bool(*onKeyDown)(void*);
-typedef struct {
+typedef function<bool(void*)> onKeyDown;
+
+//可靠的具有初始化的功能
+typedef struct __cbHoldKeyFunc{
 	onKeyDown onStart;
 	onKeyDown onHold;
 	onKeyDown onRelease;
-	void* userdata;
+	struct {
+		void* start;
+		void* hold;
+		void* release;
+	} userdata;
+
+	__cbHoldKeyFunc() {
+		onStart=[](void*){return true; };
+		onHold=[](void*){return true; };
+		onRelease=[](void*){return true; };
+		userdata.start=nullptr;
+		userdata.hold=nullptr;
+		userdata.release=nullptr;
+	}
 } cbHoldKeyFunc;
 
 typedef struct __cbCombinKeyFunc{
@@ -51,7 +68,7 @@ public:
 	//现阶段长按和组合键只支持单个函数
 
 	//长按的set,get,clear函数
-	void pushHoldKeyCallback(int keyValue,onKeyDown onStart,onKeyDown onHold,onKeyDown onRelease,void *userdata);
+	void pushHoldKeyCallback(int keyValue,onKeyDown onStart,void* startUserdata,onKeyDown onHold,void* holdUserdata,onKeyDown onRelease,void *releaseUserdata);
 	void popHoldKeyCallback(int keyValue);
 	void clearHoldKeyMap();
 

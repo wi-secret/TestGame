@@ -71,120 +71,133 @@ template <typename T> bool getActivation() {
 }
 
 bool Win32KeyboardController::saveConfig() {
-	TiXmlDocument doc(configFileStorage);
-	if (!doc.LoadFile()) {
-		TiXmlDeclaration *decl = new TiXmlDeclaration("1.0", "", "");
-		doc.LinkEndChild(decl);
-	}
-	TiXmlElement *pEle=doc.FirstChildElement("controlSetting");
-	if (pEle == NULL) {
-		pEle = new TiXmlElement("controlSetting");
-		doc.LinkEndChild(pEle);
-	}
-	TiXmlElement *pnEle = pEle->FirstChildElement("win32Keyboard");
-	if (pnEle == NULL) {
-		pnEle = new TiXmlElement("win32Keyboard");
-		pEle->LinkEndChild(pnEle);
-	}
-	pEle = pnEle;
-	pEle->Clear();
-	for (map<int, map<int, int> >::iterator it = hardwareKeyMaps.begin(); it != hardwareKeyMaps.end(); it++) {
-		for (map<int, int>::iterator it2 = it->second.begin(); it2 != it->second.end(); it2++) {
-			pnEle = new TiXmlElement("keySetting");
-			pnEle->SetAttribute("sceneCode", it->first);
-			pnEle->SetAttribute("logicKey", it2->first);
-			pnEle->SetAttribute("virtualKey", it2->second);
-		}
-	}
-	return doc.SaveFile();
+	return true;
 }
 
 bool Win32KeyboardController::loadConfig() {
-	bool res=true;
-	TiXmlDocument doc(configFileStorage);
-	if (!doc.LoadFile()) {
-		return false;
-	}
-	TiXmlElement *pEle = doc.FirstChildElement("controlSetting");
-	if (pEle == NULL) {
-		return false;
-	}
-	pEle = pEle->FirstChildElement("win32Keyboard");
-	if (pEle == NULL) {
-		return false;
-	}
-	if (pEle->FirstChild("keySetting") == NULL) {
-		return false;
-	}
-	for (TiXmlElement *it = pEle->FirstChildElement("keySetting");
-		it != pEle->LastChild("keySetting")->ToElement();
-		it = it->NextSibling()->ToElement()) {
-		int logicKey, virtualKey,scene;
-		if (TIXML_SUCCESS != it->QueryIntAttribute("logicKey", &logicKey)) {
-			continue;
-			res = false;
-		}
-		if (TIXML_SUCCESS != it->QueryIntAttribute("virtualKey", &virtualKey)) {
-			continue;
-			res = false;
-		}
-		if (TIXML_SUCCESS != it->QueryIntAttribute("sceneCode", &scene)) {
-			continue;
-			res = false;
-		}
-		hardwareKeyMaps[scene][logicKey] = virtualKey;
-	}
-	if (pEle->LastChild() != NULL) {
-		int logicKey, virtualKey, scene;
-		if (TIXML_SUCCESS != pEle->LastChild()->ToElement()->QueryIntAttribute("logicKey", &logicKey)) {
-			return false;
-		}
-		if (TIXML_SUCCESS != pEle->LastChild()->ToElement()->QueryIntAttribute("virtualKey", &virtualKey)) {
-			return false;
-		}
-		if (TIXML_SUCCESS != pEle->LastChild()->ToElement()->QueryIntAttribute("sceneCode", &scene)) {
-			return false;
-		}
-		hardwareKeyMaps[scene][logicKey] = virtualKey;
-	}
-	return res;
+	return true;
 }
 
 void Win32KeyboardController::dislinkHardwareKey() {
+	MyKeyboardControl::getInstance()->setActivation(false);
 	MyKeyboardControl::getInstance()->clearAllKeyMap();
 }
 
-//TODO:从这里开始继续实现
 void Win32KeyboardController::linkHardwareKey() {
 	dislinkHardwareKey();
+	for(auto i:hardwareKeyMaps[crntScene]) {
+		MyKeyboardControl::getInstance()->pushKeyCallback(
+			i.second,
+			[this,i] (void* userdata)->bool {
+				cbFuncMaps[crntScene][i.first].first(NULL,userdata);
+				return true;
+			},
+			cbFuncMaps[crntScene][i.first].second
+		);
+	}
+
+	map<int,cbHoldKeyFunc> holdkeylist;
+	for(auto i:holdHardwareKeyMap[crntScene]) {
+		switch(i.second.second) {
+			case KEY_DOWN : {
+				holdkeylist[i.second.first].onStart=[this,&i](void* userdata) {
+					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
+					return true;
+				};
+				holdkeylist[i.second.first].userdata.start=cbFuncMaps[crntScene][i.first].second;
+				break;
+			}
+			case KEY_HOLD : {
+				holdkeylist[i.second.first].onHold=[this,&i](void* userdata) {
+					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
+					return true;
+				};
+				holdkeylist[i.second.first].userdata.hold=cbFuncMaps[crntScene][i.first].second;
+				break;
+			}
+			case KEY_RELEASE : {
+				holdkeylist[i.second.first].onRelease=[this,&i](void* userdata) {
+					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
+					return true;
+				};
+				holdkeylist[i.second.first].userdata.release=cbFuncMaps[crntScene][i.first].second;
+				break;
+			}
+		}
+	}
+	for(auto i:holdkeylist) {
+		MyKeyboardControl::getInstance()->pushHoldKeyCallback(i.first,i.second.onStart,i.second.userdata.start,i.second.onHold,i.second.userdata.hold,i.second.onRelease,i.second.userdata.release);
+	}
+
+	for(auto i:combinHardwareKeyMap[crntScene]) {
+		MyKeyboardControl::getInstance()->pushCombinKeyCallback(
+			i.second,
+			[this,&i](void* userdata) {
+				cbFuncMaps[crntScene][i.first].first(NULL,userdata);
+				return true;
+			},
+			cbFuncMaps[crntScene][i.first].second
+		);
+	}
+
+	MyKeyboardControl::getInstance()->setActivation(true);
 }
 
-bool Win32KeyboardController::cbGeneralOnKeyDown(void* vLogicKey) {
-	map<int,pair<onButtonDown,void*> >& funcMap=theInstance->cbFuncMaps[theInstance->crntScene];
-	map<int, pair<onButtonDown, void*>>::iterator it = funcMap.find(*((int*)vLogicKey));
-	if (it == funcMap.end()) {
-		return false;
+bool Win32KeyboardController::getLogicKeyInfo(int logicKey,Win32KeyControlInfo& info) {
+	auto i=hardwareKeyMaps[crntScene].find(logicKey);
+	if(i!=hardwareKeyMaps[crntScene].end()) {
+		info.setAsKey(i->second);
+		return true;
 	}
-	if (it->second.first == NULL) {
-		return false;
+	auto j=holdHardwareKeyMap[crntScene].find(logicKey);
+	if(j!=holdHardwareKeyMap[crntScene].end()) {
+		info.setAsHoldKey(j->second.first,j->second.second);
+		return true;
 	}
-	it->second.first(NULL, it->second.second);
+	auto k=combinHardwareKeyMap[crntScene].find(logicKey);
+	if(k!=combinHardwareKeyMap[crntScene].end()) {
+		info.setCombinKey(k->second);
+		return true;
+	}
 	return false;
 }
 
 
-int Win32KeyboardController::getvKey(int scene,int vlogic) {
-	return hardwareKeyMaps[scene][vlogic];
+void Win32KeyboardController::setLogicKeyInfo(int logicKey,Win32KeyControlInfo& info) {
+	switch(info.getType()) {
+		case WIN32KEYTYPE_KEY: {
+			int key;
+			info.getAsKey(&key);
+			hardwareKeyMaps[crntScene][logicKey]=key;
+			break;
+		}
+		case WIN32KEYTYPE_HOLD: {
+			int key,keystate;
+			info.getAsHoldKey(&key,&keystate);
+			holdHardwareKeyMap[crntScene][logicKey].first=key;
+			holdHardwareKeyMap[crntScene][logicKey].second=keystate;
+			break;
+		}
+		case WIN32KEYTYPE_COMBIN: {
+			combinHardwareKeyMap[crntScene][logicKey].clear();
+			vector<unsigned char> keyOrders;
+			info.getAsCombinKey(&keyOrders);
+			for(auto i:keyOrders) {
+				combinHardwareKeyMap[crntScene][logicKey].push_back(i);
+			}
+			break;
+		}
+	}
 }
 
 MyGameController::MyGameController() {
-	MyKeyboardControl::getInstance()->setActivation(true);
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_MD] = 'S';
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_MU] = 'W';
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_ML] = 'A';
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_MR] = 'D';
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_RR] = 'E';
-	defualtKeyMaps[MYGC_SCENE_GAME][MYGC_GAME_LK_RL] = 'Q';
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_MD].setAsHoldKey('S',WIN32HOLDTYPE_HOLD);
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_MU].setAsHoldKey('W',WIN32HOLDTYPE_HOLD);
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_ML].setAsHoldKey('A',WIN32HOLDTYPE_HOLD);
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_MR].setAsHoldKey('D',WIN32HOLDTYPE_HOLD);
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_RR].setAsHoldKey('E',WIN32HOLDTYPE_HOLD);
+	defaultKeyMap[MYGC_SCENE_GAME][MYGC_GAME_LK_RL].setAsHoldKey('Q',WIN32HOLDTYPE_HOLD);
+	setToDefault();
 }
 
 MyGameController::~MyGameController() {
@@ -217,24 +230,24 @@ void Win32KeyControlInfo::release() {
 	keytype=WIN32KEYTYPE_NULL;
 }
 
-bool Win32KeyControlInfo::getAsCombinKey(vector<int> *keyorders) {
+bool Win32KeyControlInfo::getAsCombinKey(vector<unsigned char> *keyorders) {
 	if(keytype!=WIN32KEYTYPE_COMBIN) {
 		return false;
 	}
 	vector<int> *_keyorders=(vector<int>*)data;
 	keyorders->clear();
-	for(vector<int>::iterator i=_keyorders->begin();i!=_keyorders->end();i++) {
+	for(auto i=_keyorders->begin();i!=_keyorders->end();i++) {
 		keyorders->push_back(*i);
 	}
 	return true;
 }
 
-void Win32KeyControlInfo::setCombinKey(vector<int> &keyorders) {
+void Win32KeyControlInfo::setCombinKey(vector<unsigned char> &keyorders) {
 	release();
 	keytype=WIN32KEYTYPE_COMBIN;
 	data=new vector<int>;
 	vector<int> *_keyorders=(vector<int>*)data;
-	for(vector<int>::iterator i=keyorders.begin();i!=keyorders.end();i++) {
+	for(auto i=keyorders.begin();i!=keyorders.end();i++) {
 		_keyorders->push_back(*i);
 	}
 }
