@@ -75,9 +75,7 @@ void MyKeyboardControl::checkCombinKey() {
 			}
 			break;
 		}
-		if(keyOrders[i]->onHold!=NULL) {
-			keyOrders[i]->onHold(keyOrders[i]->userdata);
-		}
+		keyOrders[i]->onHold(keyOrders[i]->userdata);
 	}
 	size=keyOrders.size();
 	map<unsigned char,cbCombinKeyFunc*> *pcrntnxtkeymap=NULL;
@@ -90,9 +88,7 @@ void MyKeyboardControl::checkCombinKey() {
 		if(keysStat[i->first]==KEY_DOWN) {
 			keyOrders.push_back(i->second);
 			vkeyOrders.push_back(i->first);
-			if(i->second->onHold!=NULL) {
-				i->second->onHold(i->second->userdata);
-			}
+			i->second->onHold(i->second->userdata);
 		}
 	}
 }
@@ -166,6 +162,9 @@ void MyKeyboardControl::checkKeyState() {
 }
 
 void MyKeyboardControl::setActivation(bool in) {
+	if(!m_bisActive&&in) {
+		resetState();
+	}
 	m_bisActive = in;
 }
 
@@ -197,8 +196,6 @@ void MyKeyboardControl::pushCombinKeyCallback(vector<unsigned char>& keyOrder,on
 	map<unsigned char,cbCombinKeyFunc*>::iterator firstKey=combinKeyMap.find(keyOrder[0]);
 	if(firstKey==combinKeyMap.end()) {
 		crntKeyPos=new cbCombinKeyFunc;
-		crntKeyPos->onHold=NULL;
-		crntKeyPos->userdata=NULL;
 		combinKeyMap[keyOrder[0]]=crntKeyPos;
 		keysStat[keyOrder[0]]=0;
 	} else {
@@ -208,8 +205,6 @@ void MyKeyboardControl::pushCombinKeyCallback(vector<unsigned char>& keyOrder,on
 		map<unsigned char,cbCombinKeyFunc*>::iterator inxtk=crntKeyPos->nextKey.find(*iko);
 		if(inxtk==crntKeyPos->nextKey.end()) {
 			cbCombinKeyFunc *newcbfunc=new cbCombinKeyFunc;
-			newcbfunc->onHold=NULL;
-			newcbfunc->userdata=NULL;
 			crntKeyPos->nextKey[*iko]=newcbfunc;
 			crntKeyPos=newcbfunc;
 			keysStat[*iko]=0;
@@ -221,11 +216,13 @@ void MyKeyboardControl::pushCombinKeyCallback(vector<unsigned char>& keyOrder,on
 	crntKeyPos->userdata=userdata;
 }
 
-MyKeyboardControl* MyKeyboardControl::addCombinKey(unsigned char key,onKeyDown cbFunc,void *userdata) {
-	if(key==0) {
-		crntAddPos=NULL;
-		return this;
-	}
+
+MyKeyboardControl* MyKeyboardControl::addCombinKey() {
+	crntAddPos=NULL;
+	return this;
+}
+
+MyKeyboardControl* MyKeyboardControl::addCombinKey(unsigned char key,int operate_code) {
 	map<unsigned char, cbCombinKeyFunc*> *pcrntnxtmap=NULL;
 	if(crntAddPos==NULL) {
 		pcrntnxtmap=&combinKeyMap;
@@ -235,26 +232,43 @@ MyKeyboardControl* MyKeyboardControl::addCombinKey(unsigned char key,onKeyDown c
 	map<unsigned char, cbCombinKeyFunc*>::iterator inxtk=pcrntnxtmap->find(key);
 	if(inxtk==pcrntnxtmap->end()) {
 		crntAddPos=new cbCombinKeyFunc;
-		crntAddPos->onHold=NULL;
-		crntAddPos->userdata=NULL;
 		pcrntnxtmap->operator[](key)=crntAddPos;
 	} else {
 		crntAddPos=inxtk->second;
 	}
-	if(cbFunc!=NULL&&cbFunc!=MyKeyboardControl::clear_combin_key_func) {
-		crntAddPos->onHold=cbFunc;
-		crntAddPos->userdata=userdata;
-	} else if(cbFunc==MyKeyboardControl::clear_combin_key_func) {
-		crntAddPos->onHold=NULL;
-		crntAddPos->userdata=NULL;
+	switch(operate_code) {
+	case ADD_COMBIN_VIA: {
+		break;
 	}
+	case ADD_COMBIN_CLEAR: {
+		crntAddPos->onHold=[](void*){ return false; };
+		crntAddPos->userdata=nullptr;
+		break;
+	}
+	}
+	return this;
+}
+
+MyKeyboardControl* MyKeyboardControl::addCombinKey(unsigned char key,onKeyDown cbFunc,void *userdata) {
+	map<unsigned char, cbCombinKeyFunc*> *pcrntnxtmap=NULL;
+	if(crntAddPos==NULL) {
+		pcrntnxtmap=&combinKeyMap;
+	} else {
+		pcrntnxtmap=&(crntAddPos->nextKey);
+	}
+	map<unsigned char, cbCombinKeyFunc*>::iterator inxtk=pcrntnxtmap->find(key);
+	if(inxtk==pcrntnxtmap->end()) {
+		crntAddPos=new cbCombinKeyFunc;
+		pcrntnxtmap->operator[](key)=crntAddPos;
+	} else {
+		crntAddPos=inxtk->second;
+	}
+	crntAddPos->onHold=cbFunc;
+	crntAddPos->userdata=userdata;
 	keysStat[key]=0;
 	return this;
 }
 
-bool MyKeyboardControl::clear_combin_key_func(void*) {
-	return false;
-}
 
 void MyKeyboardControl::clearCombinKeyMap() {
 	for(map<unsigned char,cbCombinKeyFunc*>::iterator i=combinKeyMap.begin();i!=combinKeyMap.end();i++) {

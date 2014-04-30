@@ -1,44 +1,37 @@
 #include "GameController.h"
 
-template <typename T> MyGameController* GameController::theInstance = NULL;
-
-template <typename T> MyGameController* GameController::getInstance() {
-	if (theInstance == NULL) {
-		theInstance = new MyGameController();
-	}
-	return theInstance;
-}
-
-template <typename T> GameController::GameController()
+template <typename T> GameController<T>::GameController()
 {
 	activation=false;
 }
 
-template <typename T> void GameController::release() {
+template <typename T> void GameController<T>::release() {
 	dislinkHardwareKey();
 }
 
-template <typename T> void GameController::linkLogicKey(int vLogicKey, onButtonDown eventFunc, void* userdata){
+template <typename T> void GameController<T>::linkLogicKey(int vLogicKey, onButtonDown eventFunc, void* userdata){
 	cbFuncMaps[crntScene][vLogicKey].first = eventFunc;
 	cbFuncMaps[crntScene][vLogicKey].second = userdata;
 }
 
-template <typename T> void GameController::changeSceneTo(int sceneCode) {
+template <typename T> void GameController<T>::changeSceneTo(int sceneCode) {
 	dislinkHardwareKey();
 	crntScene = sceneCode;
 	linkHardwareKey();
 }
 
-template <typename T> void GameController::setToDefault() {
-	for(map<int,map<int,T>>::iterator i=defaultKeyMap.begin();i!=defualtKeyMap.end();i++) {
+template <typename T> void GameController<T>::setToDefault() {
+	int scene=crntScene;
+	for(auto i=defaultKeyMap.begin();i!=defaultKeyMap.end();i++) {
 		changeSceneTo(i->first);
 		for(map<int,T>::iterator j=i->second.begin();j!=i->second.end();j++) {
 			setLogicKeyInfo(j->first,j->second);
 		}
 	}
+	changeSceneTo(scene);
 }
 
-template <typename T> void GameController::repairKeyConfig() {
+template <typename T> void GameController<T>::repairKeyConfig() {
 	int scene=crntScene;
 	for(map<int,map<int,T>>::iterator i=defualtKeyMap.begin();i!=defualtKeyMap.end();i++) {
 		changeSceneTo(i->first);
@@ -52,7 +45,7 @@ template <typename T> void GameController::repairKeyConfig() {
 	changeSceneTo(scene);
 }
 
-template <typename T> void GameController::enable(bool in) {
+template <typename T> void GameController<T>::enable(bool in) {
 	if(in) {
 		if(!activation) {
 			linkHardwareKey();
@@ -203,6 +196,17 @@ MyGameController::MyGameController() {
 MyGameController::~MyGameController() {
 	release();
 }
+
+
+MyGameController* MyGameController::theInstance = NULL;
+
+MyGameController* MyGameController::getInstance() {
+	if (theInstance == NULL) {
+		theInstance = new MyGameController();
+	}
+	return theInstance;
+}
+
 
 Win32KeyControlInfo::Win32KeyControlInfo() {
 	data=NULL;

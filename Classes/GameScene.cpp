@@ -28,7 +28,7 @@ bool HelloWorld::init()
 
 	/////////////////////////////
 	/* This function needs rewrite by a specific controller*/
-	MyGameController* controller = GameController::getInstance();
+	MyGameController* controller = MyGameController::getInstance();
 	controller->setToDefault();
 	controller->changeSceneTo(MYGC_SCENE_GAME);
 	controller->linkLogicKey(MYGC_GAME_LK_MU, bgGoUp, this);

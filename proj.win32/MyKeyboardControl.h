@@ -34,6 +34,11 @@ typedef struct __cbCombinKeyFunc{
 	map<unsigned char,__cbCombinKeyFunc*> nextKey;
 	onKeyDown onHold;
 	void* userdata;
+
+	__cbCombinKeyFunc() {
+		userdata=nullptr;
+		onHold=[](void*){return true; };
+	}
 } cbCombinKeyFunc;
 
 
@@ -44,6 +49,8 @@ typedef struct __cbCombinKeyFunc{
 #define KEY_HOLD 2
 #define KEY_RELEASE 3
 
+#define ADD_COMBIN_VIA 0
+#define ADD_COMBIN_CLEAR 1
 class MyKeyboardControl
 {
 public:
@@ -75,8 +82,11 @@ public:
 	//组合键的set,get,clear函数
 	void pushCombinKeyCallback(vector<unsigned char>& keyOrder,onKeyDown cbFunc,void *userdata);
 	//链式添加
-	MyKeyboardControl* addCombinKey(unsigned char key=0,onKeyDown cbFunc=NULL,void* userdata=NULL);
-	static bool clear_combin_key_func(void*);
+	MyKeyboardControl* addCombinKey(unsigned char key,onKeyDown cbFunc,void* userdata);
+	//添加起始
+	MyKeyboardControl* addCombinKey();
+	//添加中途操作
+	MyKeyboardControl* addCombinKey(unsigned char key,int operate_code=ADD_COMBIN_VIA);
 	void clearCombinKeyMap();
 	
 	//清除所有按键设定

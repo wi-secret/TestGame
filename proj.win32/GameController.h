@@ -33,8 +33,6 @@ template <typename keyInfo>
 class GameController
 {
 public:
-	//获得单例对象指针
-	static MyGameController* getInstance();
 	
 	//添加或修改对应逻辑按键的响应函数
 	virtual void linkLogicKey(int vLogicKey, onButtonDown eventFunc, void* userdata);
@@ -62,7 +60,6 @@ protected:
 	void release();
 	map<int, map <int, pair<onButtonDown, void*> > > cbFuncMaps;
 	map<int, map<int,keyInfo>> defaultKeyMap;
-	static MyGameController* theInstance;
 	int crntScene;
 private:
 	GameController();
@@ -98,8 +95,12 @@ private:
 
 class MyGameController : public Win32KeyboardController {
 public:
+	//获得单例对象指针
+	static MyGameController* getInstance();
 	MyGameController();
 	~MyGameController();
+private:
+	static MyGameController* theInstance;
 };
 
 #define WIN32KEYTYPE_NULL 0
