@@ -1,19 +1,9 @@
 #pragma once
 #include <map>
 #include <vector>
-#include "tinyxml\tinyxml.h"
 #include "MyKeyboardControl.h"
 
 
-#define MYGC_SCENE_MENU 0
-#define MYGC_SCENE_GAME 1
-
-#define MYGC_GAME_LK_ML 0
-#define MYGC_GAME_LK_MR 1
-#define MYGC_GAME_LK_MU 2
-#define MYGC_GAME_LK_MD 3
-#define MYGC_GAME_LK_RL 4
-#define MYGC_GAME_LK_RR 5
 /*
 *可以允许通过平台层级的controler获取/设置指定逻辑按键的物理按键信息
 *物理按键信息应该通过一个智能指针类进行封装，并通过这个类型与一个统一的接口进行set/get
@@ -28,6 +18,7 @@ class Win32KeyboardController;
 class MyGameController;
 class Win32KeyControlInfo;
 
+template class GameController<Win32KeyControlInfo>;
 
 template <typename keyInfo>
 class GameController
@@ -92,6 +83,17 @@ private:
 	//[场景][逻辑按键]->物理按键顺序
 	map < int, map<int,vector<unsigned char>>> combinHardwareKeyMap;
 };
+
+
+#define MYGC_SCENE_MENU 0
+#define MYGC_SCENE_GAME 1
+
+#define MYGC_GAME_LK_ML 0
+#define MYGC_GAME_LK_MR 1
+#define MYGC_GAME_LK_MU 2
+#define MYGC_GAME_LK_MD 3
+#define MYGC_GAME_LK_RL 4
+#define MYGC_GAME_LK_RR 5
 
 class MyGameController : public Win32KeyboardController {
 public:

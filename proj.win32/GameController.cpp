@@ -1,4 +1,5 @@
 #include "GameController.h"
+#pragma once
 
 template <typename T> GameController<T>::GameController()
 {
@@ -15,9 +16,13 @@ template <typename T> void GameController<T>::linkLogicKey(int vLogicKey, onButt
 }
 
 template <typename T> void GameController<T>::changeSceneTo(int sceneCode) {
-	dislinkHardwareKey();
-	crntScene = sceneCode;
-	linkHardwareKey();
+	if(getActivation()) {
+		dislinkHardwareKey();
+		crntScene = sceneCode;
+		linkHardwareKey();
+	} else {
+		crntScene=sceneCode;
+	}
 }
 
 template <typename T> void GameController<T>::setToDefault() {
@@ -33,7 +38,7 @@ template <typename T> void GameController<T>::setToDefault() {
 
 template <typename T> void GameController<T>::repairKeyConfig() {
 	int scene=crntScene;
-	for(map<int,map<int,T>>::iterator i=defualtKeyMap.begin();i!=defualtKeyMap.end();i++) {
+	for(map<int,map<int,T>>::iterator i=defaultKeyMap.begin();i!=defaultKeyMap.end();i++) {
 		changeSceneTo(i->first);
 		for(map<int,T>::iterator j=i->second.begin();j!=i->second.end();j++) {
 			T info;
@@ -59,7 +64,7 @@ template <typename T> void GameController<T>::enable(bool in) {
 	}
 }
 
-template <typename T> bool getActivation() {
+template <typename T> bool GameController<T>::getActivation() {
 	return activation;
 }
 
@@ -79,41 +84,69 @@ void Win32KeyboardController::dislinkHardwareKey() {
 void Win32KeyboardController::linkHardwareKey() {
 	dislinkHardwareKey();
 	for(auto i:hardwareKeyMaps[crntScene]) {
-		MyKeyboardControl::getInstance()->pushKeyCallback(
-			i.second,
-			[this,i] (void* userdata)->bool {
-				cbFuncMaps[crntScene][i.first].first(NULL,userdata);
-				return true;
-			},
-			cbFuncMaps[crntScene][i.first].second
-		);
+		auto j=cbFuncMaps[crntScene].find(i.first);
+		if(j!=cbFuncMaps[crntScene].end()) {
+			int logickey=i.first;
+			MyKeyboardControl::getInstance()->pushKeyCallback(
+				i.second,
+				[this,logickey] (void* userdata)->bool {
+					auto i=cbFuncMaps[crntScene].find(logickey);
+					if(i!=cbFuncMaps[crntScene].end()) {
+						cbFuncMaps[crntScene][logickey].first(NULL,userdata);
+					}
+					return true;
+				},
+				j->second.second
+			);
+		}
 	}
 
 	map<int,cbHoldKeyFunc> holdkeylist;
 	for(auto i:holdHardwareKeyMap[crntScene]) {
 		switch(i.second.second) {
 			case KEY_DOWN : {
-				holdkeylist[i.second.first].onStart=[this,&i](void* userdata) {
-					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
-					return true;
-				};
-				holdkeylist[i.second.first].userdata.start=cbFuncMaps[crntScene][i.first].second;
+				auto j=cbFuncMaps[crntScene].find(i.first);
+				if(j!=cbFuncMaps[crntScene].end()) {
+					int logickey=i.first;
+					holdkeylist[i.second.first].onStart=[this,logickey](void* userdata) {
+						auto i=cbFuncMaps[crntScene].find(logickey);
+						if(i!=cbFuncMaps[crntScene].end()) {
+							cbFuncMaps[crntScene][logickey].first(NULL,userdata);
+						}
+						return true;
+					};
+					holdkeylist[i.second.first].userdata.start=j->second.second;
+				}
 				break;
 			}
 			case KEY_HOLD : {
-				holdkeylist[i.second.first].onHold=[this,&i](void* userdata) {
-					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
-					return true;
-				};
-				holdkeylist[i.second.first].userdata.hold=cbFuncMaps[crntScene][i.first].second;
+				auto j=cbFuncMaps[crntScene].find(i.first);
+				if(j!=cbFuncMaps[crntScene].end()) {
+					int logickey=i.first;
+					holdkeylist[i.second.first].onHold=[this,logickey](void* userdata) {
+						auto i=cbFuncMaps[crntScene].find(logickey);
+						if(i!=cbFuncMaps[crntScene].end()) {
+							cbFuncMaps[crntScene][logickey].first(NULL,userdata);
+						}
+						return true;
+					};
+					holdkeylist[i.second.first].userdata.hold=j->second.second;
+				}
 				break;
 			}
 			case KEY_RELEASE : {
-				holdkeylist[i.second.first].onRelease=[this,&i](void* userdata) {
-					cbFuncMaps[crntScene][i.first].first(NULL,userdata);
-					return true;
-				};
-				holdkeylist[i.second.first].userdata.release=cbFuncMaps[crntScene][i.first].second;
+				auto j=cbFuncMaps[crntScene].find(i.first);
+				if(j!=cbFuncMaps[crntScene].end()) {
+					int logickey=i.first;
+					holdkeylist[i.second.first].onRelease=[this,logickey](void* userdata) {
+						auto i=cbFuncMaps[crntScene].find(logickey);
+						if(i!=cbFuncMaps[crntScene].end()) {
+							cbFuncMaps[crntScene][logickey].first(NULL,userdata);
+						}
+						return true;
+					};
+					holdkeylist[i.second.first].userdata.release=j->second.second;
+				}
 				break;
 			}
 		}
@@ -123,14 +156,21 @@ void Win32KeyboardController::linkHardwareKey() {
 	}
 
 	for(auto i:combinHardwareKeyMap[crntScene]) {
-		MyKeyboardControl::getInstance()->pushCombinKeyCallback(
-			i.second,
-			[this,&i](void* userdata) {
-				cbFuncMaps[crntScene][i.first].first(NULL,userdata);
-				return true;
-			},
-			cbFuncMaps[crntScene][i.first].second
-		);
+		auto j=cbFuncMaps[crntScene].find(i.first);
+		if(j!=cbFuncMaps[crntScene].end()) {
+			int logickey=i.first;
+			MyKeyboardControl::getInstance()->pushCombinKeyCallback(
+				i.second,
+				[this,logickey](void* userdata) {
+					auto i=cbFuncMaps[crntScene].find(logickey);
+					if(i!=cbFuncMaps[crntScene].end()) {
+						cbFuncMaps[crntScene][logickey].first(NULL,userdata);
+					}
+					return true;
+				},
+				j->second.second
+			);
+		}
 	}
 
 	MyKeyboardControl::getInstance()->setActivation(true);

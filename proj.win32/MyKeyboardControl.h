@@ -36,6 +36,7 @@ typedef struct __cbCombinKeyFunc{
 	void* userdata;
 
 	__cbCombinKeyFunc() {
+		nextKey.clear();
 		userdata=nullptr;
 		onHold=[](void*){return true; };
 	}

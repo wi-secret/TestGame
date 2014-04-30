@@ -1,5 +1,5 @@
 #include "MyKeyboardControl.h"
-
+#pragma once
 MyKeyboardControl* MyKeyboardControl::theInstance = NULL;
 
 MyKeyboardControl::MyKeyboardControl()
@@ -274,6 +274,7 @@ void MyKeyboardControl::clearCombinKeyMap() {
 	for(map<unsigned char,cbCombinKeyFunc*>::iterator i=combinKeyMap.begin();i!=combinKeyMap.end();i++) {
 		deleteCombinKeyMap(i->second);
 	}
+	combinKeyMap.clear();
 }
 void MyKeyboardControl::deleteCombinKeyMap(cbCombinKeyFunc* startpos) {
 	for(map<unsigned char,cbCombinKeyFunc*>::iterator i=startpos->nextKey.begin();i!=startpos->nextKey.end();i++) {
