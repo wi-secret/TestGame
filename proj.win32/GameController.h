@@ -23,10 +23,13 @@
 
 typedef void (*onButtonDown)(void* buttonInfo,void* userdata);
 using namespace std;
-class GameController;
+template <typename keyInfo> class GameController;
 class Win32KeyboardController;
 class MyGameController;
+class Win32KeyControlInfo;
 
+
+template <typename keyInfo>
 class GameController
 {
 public:
@@ -40,32 +43,39 @@ public:
 	//载入按键设定
 	virtual bool loadConfig()=0;
 	//将按键设定设置为默认
-	virtual void setToDefault() = 0;
+	void setToDefault();
 	//修复按键设定，即将没有实际按键相对的逻辑按键设为默认按键
-	virtual void repairKeyConfig() = 0;
+	void repairKeyConfig();
 	//更改按键场景,支持热切换
 	void changeSceneTo(int sceneCode);
-
+	//获取指定按键的物理按键信息，如果对应逻辑按键不存在返回false
+	virtual bool getLogicKeyInfo(int logickey,keyInfo& info)=0;
+	//设定指定按键的物理按键，如果没有被设定过，就添加新的logickey信息
+	virtual void setLogicKeyInfo(int logickey,keyInfo& hard)=0;
+	//设置是否处于活动状态，无法在活动状态更改当前场景按键
 	void enable(bool);
+	bool getActivation();
 
 protected:
 	virtual void linkHardwareKey() = 0;
 	virtual void dislinkHardwareKey() = 0;
 	void release();
 	map<int, map <int, pair<onButtonDown, void*> > > cbFuncMaps;
+	map<int, map<int,keyInfo>> defaultKeyMap;
 	static MyGameController* theInstance;
 	int crntScene;
 private:
 	GameController();
+	bool activation;
 	friend Win32KeyboardController;
 };
 
-class Win32KeyboardController : public GameController {
+class Win32KeyboardController : public GameController<Win32KeyControlInfo> {
 public:
 	virtual bool saveConfig();
 	virtual bool loadConfig();
-	virtual void setToDefault();
-	virtual void repairKeyConfig();
+	virtual bool getLogicKeyInfo(int logicKey,Win32KeyControlInfo& info);
+	virtual void setLogicKeyInfo(int logicKey,Win32KeyControlInfo& info);
 protected:
 	virtual void linkHardwareKey();
 	virtual void dislinkHardwareKey();
@@ -74,17 +84,7 @@ protected:
 
 	const char* configFileStorage;
 
-	void setKey(int logicKey, int vKey);
-	void setDefaultKey(int logicKey,int vKey);
-	
-	void setHoldKey(int logicKey, int vKey, int keyState);
-	void setDefaultHoldKey(int logicKey, int vKey, int keyState);
-	
-	Win32KeyboardController* setCombinKey(int vKey, int logicKey);
-	Win32KeyboardController* setDefaultCombinKey(int vKey, int logicKey);
-
 private:
-	vector<int*> vlKey;
 	
 	//[场景][逻辑按键]->物理按键
 	map<int, map<int, int> > hardwareKeyMaps;
@@ -103,4 +103,47 @@ class MyGameController : public Win32KeyboardController {
 public:
 	MyGameController();
 	~MyGameController();
+};
+
+#define WIN32KEYTYPE_NULL 0
+#define WIN32KEYTYPE_HOLD 1
+#define WIN32KEYTYPE_COMBIN 2
+#define WIN32KEYTYPE_KEY 3
+
+#define WIN32HOLDTYPE_START 1
+#define WIN32HOLDTYPE_HOLD 2
+#define WIN32HOLDTYPE_RELEASE 3
+
+class Win32KeyControlInfo{
+public:
+	Win32KeyControlInfo();
+	~Win32KeyControlInfo();
+
+	bool getAsCombinKey(vector<int> *keyOrders);
+	void setCombinKey(vector<int>& keyOrders);
+	//链式添加
+	Win32KeyControlInfo* setCombinKey(int vkey=-1);
+
+	bool getAsHoldKey(int *vkey, int *keyType);
+	void setAsHoldKey(int vkey,int keyType);
+
+	bool getAsKey(int *vkey);
+	void setAsKey(int vkey);
+
+	//返回值为结果的长度，不计'\0'
+	//TODO:实现这两个函数
+	int getAsString(char *res=NULL);
+	int getAsString(string& res);
+
+	int getType();
+
+	void release();
+private:
+	typedef struct {
+		int vkey;
+		int keyState;
+	} holdKeyInfo;
+
+	int keytype;
+	void *data;
 };

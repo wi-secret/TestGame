@@ -1,41 +1,73 @@
 #include "GameController.h"
 
-MyGameController* GameController::theInstance = NULL;
+template <typename T> MyGameController* GameController::theInstance = NULL;
 
-void GameController::enable(bool input) {
-	if(input){
-		dislinkHardwareKey();
-		linkHardwareKey();
-	}
-	else {
-		dislinkHardwareKey();
-	}
-}
-
-MyGameController* GameController::getInstance() {
+template <typename T> MyGameController* GameController::getInstance() {
 	if (theInstance == NULL) {
 		theInstance = new MyGameController();
 	}
 	return theInstance;
 }
 
-GameController::GameController()
+template <typename T> GameController::GameController()
 {
+	activation=false;
 }
 
-void GameController::release() {
+template <typename T> void GameController::release() {
 	dislinkHardwareKey();
 }
 
-void GameController::linkLogicKey(int vLogicKey, onButtonDown eventFunc, void* userdata){
+template <typename T> void GameController::linkLogicKey(int vLogicKey, onButtonDown eventFunc, void* userdata){
 	cbFuncMaps[crntScene][vLogicKey].first = eventFunc;
 	cbFuncMaps[crntScene][vLogicKey].second = userdata;
 }
 
-void GameController::changeSceneTo(int sceneCode) {
+template <typename T> void GameController::changeSceneTo(int sceneCode) {
 	dislinkHardwareKey();
 	crntScene = sceneCode;
 	linkHardwareKey();
+}
+
+template <typename T> void GameController::setToDefault() {
+	for(map<int,map<int,T>>::iterator i=defaultKeyMap.begin();i!=defualtKeyMap.end();i++) {
+		changeSceneTo(i->first);
+		for(map<int,T>::iterator j=i->second.begin();j!=i->second.end();j++) {
+			setLogicKeyInfo(j->first,j->second);
+		}
+	}
+}
+
+template <typename T> void GameController::repairKeyConfig() {
+	int scene=crntScene;
+	for(map<int,map<int,T>>::iterator i=defualtKeyMap.begin();i!=defualtKeyMap.end();i++) {
+		changeSceneTo(i->first);
+		for(map<int,T>::iterator j=i->second.begin();j!=i->second.end();j++) {
+			T info;
+			if(!getLogicKeyInfo(j->first,info)) {
+				setLogicKeyInfo(j->first,j->second);
+			}
+		}
+	}
+	changeSceneTo(scene);
+}
+
+template <typename T> void GameController::enable(bool in) {
+	if(in) {
+		if(!activation) {
+			linkHardwareKey();
+			activation=true;
+		}
+	} else {
+		if(activation) {
+			dislinkHardwareKey();
+			activation=false;
+		}
+	}
+}
+
+template <typename T> bool getActivation() {
+	return activation;
 }
 
 bool Win32KeyboardController::saveConfig() {
@@ -120,20 +152,11 @@ bool Win32KeyboardController::loadConfig() {
 
 void Win32KeyboardController::dislinkHardwareKey() {
 	MyKeyboardControl::getInstance()->clearAllKeyMap();
-	for (vector<int*>::iterator i = vlKey.begin(); i != vlKey.end(); i++) {
-		delete *i;
-	}
-	vlKey.clear();
 }
 
+//TODO:从这里开始继续实现
 void Win32KeyboardController::linkHardwareKey() {
 	dislinkHardwareKey();
-	for (map<int, int>::iterator i = hardwareKeyMaps[crntScene].begin(); i != hardwareKeyMaps[crntScene].end(); i++) {
-		int *pvLogicKey = new int;
-		*pvLogicKey = i->first;
-		vlKey.push_back(pvLogicKey);
-		MyKeyboardControl::getInstance()->pushKeyCallback(i->second, cbGeneralOnKeyDown, pvLogicKey);
-	}
 }
 
 bool Win32KeyboardController::cbGeneralOnKeyDown(void* vLogicKey) {
@@ -149,24 +172,6 @@ bool Win32KeyboardController::cbGeneralOnKeyDown(void* vLogicKey) {
 	return false;
 }
 
-void Win32KeyboardController::repairKeyConfig() {
-	for (map<int, map<int, int>>::iterator it = defualtKeyMaps.begin(); it != defualtKeyMaps.end(); it++) {
-		map<int, map<int,int>>::iterator iscene = hardwareKeyMaps.find(it->first);
-		if (iscene == hardwareKeyMaps.end()) {
-			hardwareKeyMaps[it->first];
-			iscene = hardwareKeyMaps.find(it->first);
-		}
-		for (map<int, int>::iterator it2 = it->second.begin(); it2 != it->second.end(); it2++) {
-			if (iscene->second.find(it2->first) == iscene->second.end()) {
-				iscene->second[it2->first] = it2->second;
-			}
-		}
-	}
-}
-
-void Win32KeyboardController::setToDefault() {
-	hardwareKeyMaps = defualtKeyMaps;
-}
 
 int Win32KeyboardController::getvKey(int scene,int vlogic) {
 	return hardwareKeyMaps[scene][vlogic];
@@ -184,4 +189,110 @@ MyGameController::MyGameController() {
 
 MyGameController::~MyGameController() {
 	release();
+}
+
+Win32KeyControlInfo::Win32KeyControlInfo() {
+	data=NULL;
+	keytype=WIN32KEYTYPE_NULL;
+}
+
+Win32KeyControlInfo::~Win32KeyControlInfo() {
+	release();
+}
+
+void Win32KeyControlInfo::release() {
+	if(data!=NULL) {
+		switch(keytype) {
+		case WIN32KEYTYPE_COMBIN:
+			delete (vector<int>*)data;
+			break;
+		case WIN32KEYTYPE_HOLD:
+			delete (Win32KeyControlInfo::holdKeyInfo*)data;
+			break;
+		case WIN32KEYTYPE_KEY:
+			delete (int*)data;
+			break;
+		}
+	}
+	keytype=WIN32KEYTYPE_NULL;
+}
+
+bool Win32KeyControlInfo::getAsCombinKey(vector<int> *keyorders) {
+	if(keytype!=WIN32KEYTYPE_COMBIN) {
+		return false;
+	}
+	vector<int> *_keyorders=(vector<int>*)data;
+	keyorders->clear();
+	for(vector<int>::iterator i=_keyorders->begin();i!=_keyorders->end();i++) {
+		keyorders->push_back(*i);
+	}
+	return true;
+}
+
+void Win32KeyControlInfo::setCombinKey(vector<int> &keyorders) {
+	release();
+	keytype=WIN32KEYTYPE_COMBIN;
+	data=new vector<int>;
+	vector<int> *_keyorders=(vector<int>*)data;
+	for(vector<int>::iterator i=keyorders.begin();i!=keyorders.end();i++) {
+		_keyorders->push_back(*i);
+	}
+}
+
+Win32KeyControlInfo* Win32KeyControlInfo::setCombinKey(int vkey) {
+	if(vkey==-1) {
+		release();
+		keytype=WIN32KEYTYPE_COMBIN;
+		data=new vector<int>;
+		return this;
+	}
+	vector<int> *keyorders=(vector<int>*)data;
+	keyorders->push_back(vkey);
+	return this;
+}
+
+bool Win32KeyControlInfo::getAsHoldKey(int *vkey, int *keyType) {
+	if(keytype!=WIN32KEYTYPE_HOLD) {
+		return false;
+	}
+	holdKeyInfo *info=(holdKeyInfo*)data;
+	*keyType=info->keyState;
+	*vkey=info->vkey;
+	return true;
+}
+
+void Win32KeyControlInfo::setAsHoldKey(int vkey,int keyType) {
+	release();
+	keytype=WIN32KEYTYPE_HOLD;
+	data=new holdKeyInfo;
+	holdKeyInfo *info=(holdKeyInfo*)data;
+	info->keyState=keyType;
+	info->vkey=vkey;
+}
+
+bool Win32KeyControlInfo::getAsKey(int* vkey) {
+	if(keytype!=WIN32KEYTYPE_KEY) {
+		return false;
+	}
+	*vkey=*((int*)data);
+	return true;
+}
+
+void Win32KeyControlInfo::setAsKey(int vkey) {
+	release();
+	keytype=WIN32KEYTYPE_KEY;
+	data=new int;
+	(*((int*)data))=vkey;
+}
+
+int Win32KeyControlInfo::getType() {
+	return keytype;
+}
+
+int Win32KeyControlInfo::getAsString(char *res) {
+	return 0;
+}
+
+int Win32KeyControlInfo::getAsString(string &res) {
+	return 0;
 }
